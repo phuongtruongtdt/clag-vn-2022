@@ -36,7 +36,6 @@ export const StyledButton = styled('button')<{ isPrimary?: boolean }>`
   margin-right: ${(props) => (props.isPrimary ? '0.25rem' : '0')};
   padding: ${(props) => (props.isPrimary ? '0.75rem 2.25rem' : '1rem 2.25rem')};
   border-radius: 2rem;
-  text-decoration: none;
   font-size: 1.5rem;
   font-weight: bold;
   border: ${(props) => (props.isPrimary ? '4px solid #1b7357' : 'none')};
