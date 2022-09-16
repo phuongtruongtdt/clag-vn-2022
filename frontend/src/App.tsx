@@ -1,8 +1,9 @@
 import './App.css'
+import Header from './components/Header';
 export const App = () => {
   return (
-    <div>
-      Know where you charged
+    <div style={{padding: '3rem'}}>
+      <Header/>
     </div>
   );
 }
