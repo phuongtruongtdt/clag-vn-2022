@@ -14,7 +14,7 @@ const Banner = () => {
           <StyledButton isPrimary>Get Started</StyledButton>
           <StyledButton>
             <StyledIcon
-              className='fa fa-play-circle-o'
+              className='far fa-play-circle'
               aria-hidden='true'
             ></StyledIcon>{' '}
             <span style={{ marginLeft: '0.5rem' }}>Watch video</span>

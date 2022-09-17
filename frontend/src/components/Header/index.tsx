@@ -10,11 +10,15 @@ import {
 
 interface HeaderProps {
   isHomePage?: boolean;
+  isRegisterPage?: boolean;
 }
 const Header = (props: HeaderProps) => {
-  const { isHomePage } = props;
+  const { isHomePage, isRegisterPage } = props;
   return (
-    <StyledContainer justify={isHomePage}>
+    <StyledContainer
+      style={{ padding: isRegisterPage ? '3rem 4rem' : '0' }}
+      justify={isHomePage}
+    >
       <StyledLogo href='/'>
         <img src={process.env.PUBLIC_URL + '/img/logo.svg'} />
         <StyledTitle>GBank Co.</StyledTitle>
