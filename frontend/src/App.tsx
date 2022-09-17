@@ -1,13 +1,13 @@
-import './App.css'
-import Banner from './components/Banner';
-import Header from './components/Header';
+import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+
 export const App = () => {
   return (
-    <div style={{padding: '3rem'}}>
-      <Header/>
-      <Banner/>
-    </div>
+    <Routes>
+      <Route path='/' element={<HomePage />} />
+    </Routes>
   );
-}
+};
 
 export default App;
