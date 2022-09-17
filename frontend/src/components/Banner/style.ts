@@ -23,9 +23,3 @@ export const StyledIcon = styled('i')(({ theme }) => ({
   color: theme.color.yellow,
   fontSize: '2.5rem',
 }));
-
-export const StyledImage = styled('img')({
-  display: 'block',
-  width: '80%',
-  marginLeft: 'auto',
-});

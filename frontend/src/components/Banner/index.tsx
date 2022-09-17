@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import { StyledButton, StyledIcon, StyledImage, StyledTitle } from './style';
+import { StyledImage } from '../styles';
+import { StyledButton, StyledIcon, StyledTitle } from './style';
 
 const Banner = () => {
   return (

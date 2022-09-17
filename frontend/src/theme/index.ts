@@ -11,7 +11,7 @@ const themeColors = {
     grey: '#9d9d9d',
     grey_100: '#fafafa',
     yellow: '#f8d377',
-    green_bold: '145a44',
+    green_bold: '#145a44',
     green_light: '#e8f1ee',
     green_neon: '27feba',
   },
