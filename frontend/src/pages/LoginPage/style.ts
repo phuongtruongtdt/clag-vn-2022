@@ -35,13 +35,6 @@ export const StyledLabel = styled(InputLabel)(({ theme }) => ({
   padding: '0 1rem',
 }));
 
-export const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  '& svg': {
-    width: '0.5em',
-    height: '0.5em',
-  },
-}));
-
 export const StyledLoginButton = styled(StyledButton)(({ theme }) => ({
   display: 'block',
   width: '10rem',

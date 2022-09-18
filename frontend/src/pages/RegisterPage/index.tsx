@@ -1,7 +1,7 @@
 import { Box, Grid } from '@mui/material';
 import { useCallback, useState } from 'react';
 import Header from '../../components/Header';
-import InformationForm from '../../components/InformationForm';
+import InformationForm from './InformationForm';
 import { StyledArrow } from '../../components/styles';
 import {
   StyledContainer,
@@ -9,6 +9,8 @@ import {
   StyledNextButton,
   StyledNavigationContainer,
 } from './style';
+import PasswordForm from './PasswordForm';
+import VerificationForm from './VerificationForm';
 interface State {
   step: 'info' | 'password' | 'verification';
 }
@@ -18,7 +20,8 @@ const RegisterPage = () => {
   });
   const handleNext = useCallback(() => {
     if (values.step === 'info') setValues({ step: 'password' });
-  }, []);
+    if (values.step === 'password') setValues({ step: 'verification' });
+  }, [values]);
   return (
     <Box>
       <Header isRegisterPage />
@@ -29,18 +32,60 @@ const RegisterPage = () => {
       >
         <Grid style={{ display: 'flex', alignItems: 'center' }} xs={6}>
           <p style={{ fontSize: '3rem' }}>
-            <span style={{ fontWeight: 'bold', fontSize: '3.5rem' }}>
-              Input
-            </span>
-            <br />
-            <span style={{ fontWeight: '300' }}>your</span>
-            <br />
-            <span style={{ fontWeight: 'bold', fontSize: '3.5rem' }}>
-              information
-            </span>
+            {values.step === 'verification' ? (
+              <>
+                <span
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: '3.5rem',
+                    color: '#AEE5D4',
+                  }}
+                >
+                  Identity
+                </span>
+                <br />
+                <span
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: '3.5rem',
+                    color: '#AEE5D4',
+                  }}
+                >
+                  Verification
+                </span>
+              </>
+            ) : (
+              <>
+                <span
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: '3.5rem',
+                    color: '#AEE5D4',
+                  }}
+                >
+                  Input
+                </span>
+                <br />
+                <span style={{ fontWeight: '300' }}>your</span>
+                <br />
+                <span
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: '3.5rem',
+                    color: '#AEE5D4',
+                  }}
+                >
+                  information
+                </span>
+              </>
+            )}
           </p>
         </Grid>
-        <Grid xs={6}>{values.step === 'info' && <InformationForm />}</Grid>
+        <Grid xs={6}>
+          {values.step === 'info' && <InformationForm />}
+          {values.step === 'password' && <PasswordForm />}
+          {values.step === 'verification' && <VerificationForm />}
+        </Grid>
       </StyledContainer>
       <StyledNavigationContainer>
         <StyledNextButton onClick={handleNext}>

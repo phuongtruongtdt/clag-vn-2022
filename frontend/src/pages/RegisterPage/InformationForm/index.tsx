@@ -1,24 +1,29 @@
 import React from 'react';
-import { StyledFormControl, StyledInput, StyledLabel } from '../styles';
+import {
+  StyledFormControl,
+  StyledInput,
+  StyledLabel,
+  StyledShadowInput,
+} from '../../../components/styles';
 
 const InformationForm = () => {
   return (
     <>
       <StyledFormControl>
         <StyledLabel>Full name</StyledLabel>
-        <StyledInput id='fullname' type='text' />
+        <StyledShadowInput id='fullname' type='text' />
       </StyledFormControl>
       <StyledFormControl>
         <StyledLabel>Personal ID</StyledLabel>
-        <StyledInput id='personal-id' type='text' />
+        <StyledShadowInput id='personal-id' type='text' />
       </StyledFormControl>
       <StyledFormControl>
         <StyledLabel>Phone number</StyledLabel>
-        <StyledInput id='phone-number' type='text' />
+        <StyledShadowInput id='phone-number' type='text' />
       </StyledFormControl>
       <StyledFormControl>
         <StyledLabel>Address</StyledLabel>
-        <StyledInput id='address' type='text' />
+        <StyledShadowInput id='address' type='text' />
       </StyledFormControl>
     </>
   );

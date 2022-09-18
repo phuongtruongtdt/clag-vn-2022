@@ -1,4 +1,4 @@
-import { FormControl, OutlinedInput, styled } from '@mui/material';
+import { FormControl, IconButton, OutlinedInput, styled } from '@mui/material';
 import { theme } from '../theme';
 
 export const PageContainer = styled('div')({
@@ -67,5 +67,16 @@ export const StyledInput = styled(OutlinedInput)(({ theme }) => ({
     '&:focus': {
       color: theme.color.black,
     },
+  },
+}));
+
+export const StyledShadowInput = styled(StyledInput)({
+  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 4px 4px',
+});
+
+export const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  '& svg': {
+    width: '0.5em',
+    height: '0.5em',
   },
 }));

@@ -14,6 +14,7 @@ const themeColors = {
     green_bold: '#145a44',
     green_light: '#e8f1ee',
     green_neon: '27feba',
+    list_item: '#AEE5D4',
   },
 } as const;
 

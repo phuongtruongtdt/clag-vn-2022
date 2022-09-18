@@ -1,25 +1,16 @@
-import {
-  FormControl,
-  Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-} from '@mui/material';
+import { FormControl, Grid, InputAdornment } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Feature from '../../components/Feature';
 import Header from '../../components/Header';
 import {
   PageContainer,
-  StyledButton,
+  StyledIconButton,
   StyledImage,
 } from '../../components/styles';
 import { useState } from 'react';
 import {
-  StyledIconButton,
   StyledInput,
-  StyledLabel,
   StyledLink,
   StyledLinkContainer,
   StyledLoginButton,
