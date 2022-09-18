@@ -1,5 +1,7 @@
 import { FormControl, IconButton, OutlinedInput, styled } from '@mui/material';
 import { theme } from '../theme';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
 export const PageContainer = styled('div')({
   padding: '3rem 4rem',
@@ -80,3 +82,10 @@ export const StyledIconButton = styled(IconButton)(({ theme }) => ({
     height: '0.5em',
   },
 }));
+
+export const StyledListItemIcon = styled(ListItemIcon)({
+  minWidth: '2.5rem',
+  '& svg': {
+    color: 'white',
+  },
+});
