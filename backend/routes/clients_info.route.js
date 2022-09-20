@@ -3,7 +3,8 @@ import clients_infoModels from "../models/clients_info.models.js";
 import bcrypt from "bcrypt"
 
 const router = express.Router();
-router.get("/", async function (req, res) {
+
+router.get("/findall", async function (req, res) {
     try {
         const list = await clients_infoModels.findAll();
         if (list.length == 0) {
@@ -39,6 +40,23 @@ router.get("/:id", async function (req, res) {
     }
 });
 
+router.get("/", async function (req, res) {
+    try {
+        const email = req.query.email;
+        const result = await clients_infoModels.findByEmail(email)
+        if (result.length === 0) {
+            res.send("This client does not exist")
+        }
+        else {
+            console.log(result)
+            res.send(result)
+        }
+    } catch (error) {
+        console.log(error)
+        res.send("Something's not right :))")
+    }
+});
+
 router.post("/register", async function (req, res) {
     try {
         const raw = req.body.psword;
@@ -59,6 +77,27 @@ router.post("/register", async function (req, res) {
         res.send(entity)
     } catch (error) {
         res.send("Can not register a new client")
+    }
+});
+
+router.post("/login", async function (req, res) {
+    try {
+        const user = await clients_infoModels.findByEmail(req.body.email)
+        if (user === null) {
+            res.send("Login Failed")
+        }
+        else {
+            const check = bcrypt.compareSync(req.body.adornment-password,user.psword)
+            if (check === true){
+                res.send("Login Successfully")
+            }
+            if (check === false){
+                res.send("Login Failed")
+            }
+        }
+
+    } catch (error) {
+
     }
 });
 export default router;
