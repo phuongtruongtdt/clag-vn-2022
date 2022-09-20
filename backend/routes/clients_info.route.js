@@ -87,7 +87,7 @@ router.post("/login", async function (req, res) {
             res.send("Login Failed")
         }
         else {
-            const check = bcrypt.compareSync(req.body.adornment-password,user.psword)
+            const check = bcrypt.compareSync(req.body.adornment_password,user.psword)
             if (check === true){
                 res.send("Login Successfully")
             }
@@ -97,7 +97,7 @@ router.post("/login", async function (req, res) {
         }
 
     } catch (error) {
-
+        res.send("Login Failed")
     }
 });
 export default router;
