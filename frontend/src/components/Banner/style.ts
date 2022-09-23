@@ -2,7 +2,7 @@ import { styled } from '@mui/material';
 
 export const StyledTitle = styled('h1')(({ theme }) => ({
   fontWeight: theme.typography.fontWeightBold,
-  fontSize: '6rem',
+  fontSize: '5rem',
   lineHeight: '1.2',
 }));
 
@@ -12,7 +12,7 @@ export const StyledButton = styled('button')<{ isPrimary?: boolean }>`
   margin-right: ${(props) => (props.isPrimary ? '0.5rem' : '0')};
   padding: 0.25rem 2rem;
   border-radius: 0.75rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   border: none;
   display: ${(props) => (props.isPrimary ? 'inline' : 'inline-flex')};

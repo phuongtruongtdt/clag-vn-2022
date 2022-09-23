@@ -4,7 +4,7 @@ import { StyledArrow, StyledContainer } from './style';
 
 const Feature = () => {
   return (
-    <StyledContainer>
+    <StyledContainer style={{ marginTop: '5rem' }}>
       <FeatureItem
         icon='card.png'
         title='Transfer Money'
