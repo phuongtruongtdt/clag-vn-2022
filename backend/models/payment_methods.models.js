@@ -5,10 +5,10 @@ export default{
         return total;
     },
     async findById(id){
-        const res = await db("payment_methods").where("id",id);
+        const res = await db("payment_methods").where("method_id",id);
         return res[0];
     },
     add(name){
-        return db("clients_info").insert("method_name", name);
+        return db("payment_methods").insert("method_name", name);
     }
 };

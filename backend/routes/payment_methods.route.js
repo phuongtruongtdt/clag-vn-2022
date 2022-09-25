@@ -27,31 +27,11 @@ router.get("/findall", async function (req, res) {
 
 });
 
-router.get("/:id", async function (req, res) {
-    try {
-        const id = req.params.id;
-        const result = await clients_infoModels.findById(id)
-        if (!result) {
-            res.send({
-                error_code: -1,
-                message: "Client not found"
-            })
-        }
-        else {
-            res.send(result)
-        }
-    } catch (error) {
-        res.send({
-            error_code: 1,
-            message: error
-        })
-    }
-});
 
 router.get("/", async function (req, res) {
     try {
-        const email = req.query.email;
-        const result = await clients_infoModels.findByEmail(email)
+        const id = req.query.id;
+        const result = await payment_methodsModels.findById(id)
         if (result.length === 0) {
             res.send({
                 error_code: -1,
@@ -68,5 +48,6 @@ router.get("/", async function (req, res) {
         })
     }
 });
+
 
 export default router;
