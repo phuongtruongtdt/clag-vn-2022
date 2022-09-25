@@ -37,6 +37,16 @@ CREATE TABLE `bank_accounts` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `bank_accounts`
+--
+
+LOCK TABLES `bank_accounts` WRITE;
+/*!40000 ALTER TABLE `bank_accounts` DISABLE KEYS */;
+INSERT INTO `bank_accounts` VALUES ('55566677788','9988776666','271222123',1,'2027-07-01');
+/*!40000 ALTER TABLE `bank_accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `clients_info`
 --
 
@@ -55,6 +65,16 @@ CREATE TABLE `clients_info` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `clients_info`
+--
+
+LOCK TABLES `clients_info` WRITE;
+/*!40000 ALTER TABLE `clients_info` DISABLE KEYS */;
+INSERT INTO `clients_info` VALUES ('123456789','Eden Truong','49 Mac Dinh Chi','0987654321','clag@gmail.com','$2b$10$nVLgBjcfRiF5ZRJDdh5O4ui5SWM.35MHI9TtyrO1.TPlW6iayuSkq'),('271222123','Chau Nguyen','27 Nguyen Van Cu','23188734891','chau@gmail.com','$2b$10$PcCqQ9t/Q0GWcE15z6zv7.e248gebNZoptqTd2XHWMDuNnF/SEXIS');
+/*!40000 ALTER TABLE `clients_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `locations`
 --
 
@@ -67,8 +87,18 @@ CREATE TABLE `locations` (
   `lat` float DEFAULT NULL,
   `lng` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `locations`
+--
+
+LOCK TABLES `locations` WRITE;
+/*!40000 ALTER TABLE `locations` DISABLE KEYS */;
+INSERT INTO `locations` VALUES (1,'Ben Thanh Market',10.7725,106.698),(2,'Tocotoco Bubble Tea',10.7669,106.696);
+/*!40000 ALTER TABLE `locations` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `payment_methods`
@@ -83,6 +113,42 @@ CREATE TABLE `payment_methods` (
   PRIMARY KEY (`method_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment_methods`
+--
+
+LOCK TABLES `payment_methods` WRITE;
+/*!40000 ALTER TABLE `payment_methods` DISABLE KEYS */;
+INSERT INTO `payment_methods` VALUES (1,'Credit Card'),(2,'Debit Card'),(3,'Mobile Payment'),(4,'e-Wallet');
+/*!40000 ALTER TABLE `payment_methods` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `provinces_cities`
+--
+
+DROP TABLE IF EXISTS `provinces_cities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `provinces_cities` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `pc_name` varchar(45) DEFAULT NULL,
+  `lat` float DEFAULT NULL,
+  `long` float DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `provinces_cities`
+--
+
+LOCK TABLES `provinces_cities` WRITE;
+/*!40000 ALTER TABLE `provinces_cities` DISABLE KEYS */;
+INSERT INTO `provinces_cities` VALUES (1,'Ho Chi Minh',10.8167,106.633),(2,'Binh Duong',11.3254,106.477),(3,'Ben Tre',10.2434,106.376);
+/*!40000 ALTER TABLE `provinces_cities` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `transactions`
@@ -106,6 +172,15 @@ CREATE TABLE `transactions` (
   CONSTRAINT `transaction_location` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transactions`
+--
+
+LOCK TABLES `transactions` WRITE;
+/*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -116,4 +191,4 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-19 23:18:00
+-- Dump completed on 2022-09-25 15:23:00
