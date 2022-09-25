@@ -21,6 +21,7 @@ import Pin from './Pin';
 import PLACES from './../../../data/places.json';
 import LOCATIONS from './../../../data/locations.json';
 import CARDTYPES from './../../../data/card-types.json';
+import axios from 'axios';
 
 interface State {
   startDate: Dayjs | null;
@@ -123,6 +124,12 @@ const TransactionHistory = () => {
       setDetailList(PLACES);
     }
   }, [state]);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/payment_methods/findall')
+      .then((result) => console.log('data', result.data));
+  }, []);
 
   const total = useMemo(() => {
     return detailList.reduce(
