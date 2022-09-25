@@ -56,13 +56,27 @@ const PasswordForm = (props: {
       setPasswordError(
         'Password must have both uppercase and lowercase letters'
       );
+    } else if (password.match(/\d+/) === null) {
+      setPasswordError('Password must have at least a number');
+    } else if (
+      password.match(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g) === null
+    ) {
+      setPasswordError('Password must have at least a special character');
     } else setPasswordError('');
+  };
+
+  const handleValidateConfirmPassword = (confirmPassword: string) => {
+    if (confirmPassword !== values.password) {
+      setConfirmPassError('Confirm password does not match');
+    } else setConfirmPassError('');
   };
 
   const handleChange =
     (prop: keyof FormValues) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
       if (prop === 'password') handleValidatePassword(event.target.value);
+      if (prop === 'confirmPassword')
+        handleValidateConfirmPassword(event.target.value);
       setPasswordValues(prop, event.target.value);
     };
 
