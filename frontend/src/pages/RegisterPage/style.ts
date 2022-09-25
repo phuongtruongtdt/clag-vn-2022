@@ -1,5 +1,5 @@
 import { Grid, styled } from '@mui/material';
-import { StyledButton } from '../../components/styles';
+import { StyledSubmitButton } from '../../components/styles';
 
 export const StyledTitle = styled('h1')(({ theme }) => ({
   fontSize: '2rem',
@@ -20,7 +20,7 @@ export const StyledNavigationContainer = styled('div')({
   marginTop: '1rem',
 });
 
-export const StyledNextButton = styled(StyledButton)(({ theme }) => ({
+export const StyledNextButton = styled(StyledSubmitButton)(({ theme }) => ({
   background: 'transparent',
   border: '2px solid black',
   color: theme.color.black,

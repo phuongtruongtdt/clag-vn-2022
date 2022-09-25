@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { InputAdornment } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -9,33 +9,67 @@ import {
   StyledIconButton,
   StyledLabel,
   StyledShadowInput,
+  StyledTextValidator,
 } from '../../../components/styles';
 import { StyledFormControlLabel, StyledList } from './style';
 
-interface State {
+interface FormValues {
+  email: string;
   password: string;
   confirmPassword: string;
+  agreeToTerms: boolean;
+}
+interface State {
   showPassword: boolean;
   showConfirmPassword: boolean;
 }
 
-const PasswordForm = () => {
-  const [values, setValues] = useState<State>({
-    password: '',
-    confirmPassword: '',
+const PasswordForm = (props: {
+  values: any;
+  setPasswordValues: any;
+  termsError: any;
+  setTermsError: any;
+  passwordError: any;
+  setPasswordError: any;
+  confirmPassError: any;
+  setConfirmPassError: any;
+}) => {
+  const {
+    values,
+    setPasswordValues,
+    termsError,
+    setTermsError,
+    confirmPassError,
+    setConfirmPassError,
+    passwordError,
+    setPasswordError,
+  } = props;
+  const [state, setState] = useState<State>({
     showPassword: false,
     showConfirmPassword: false,
   });
 
+  const handleValidatePassword = (password: string) => {
+    if (password.length < 8)
+      setPasswordError('Password must have at least 8 characters');
+    else if (password.match('[a-z].*[A-Z]|[A-Z].*[a-z]') === null) {
+      setPasswordError(
+        'Password must have both uppercase and lowercase letters'
+      );
+    } else setPasswordError('');
+  };
+
   const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
+    (prop: keyof FormValues) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (prop === 'password') handleValidatePassword(event.target.value);
+      setPasswordValues(prop, event.target.value);
     };
 
   const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
+    setState({
+      ...state,
+      showPassword: !state.showPassword,
     });
   };
 
@@ -46,23 +80,41 @@ const PasswordForm = () => {
   };
 
   const handleClickShowConfirmPassword = () => {
-    setValues({
-      ...values,
-      showConfirmPassword: !values.showConfirmPassword,
+    setState({
+      ...state,
+      showConfirmPassword: !state.showConfirmPassword,
     });
+  };
+
+  const handleCheck = (e: any, checked: boolean) => {
+    setPasswordValues('agreeToTerms', checked);
+    if (checked) setTermsError('');
   };
 
   return (
     <>
       <StyledFormControl>
         <StyledLabel>Email</StyledLabel>
-        <StyledShadowInput id='email' type='text' />
+        <StyledTextValidator
+          onChange={handleChange('email')}
+          name='email'
+          value={values.email}
+          validators={['required', 'isEmail']}
+          errorMessages={['This field is required', 'Email is not valid']}
+        />
       </StyledFormControl>
       <StyledFormControl>
         <StyledLabel>Password</StyledLabel>
+        {/* <StyledTextValidator
+          onChange={handleChange('password')}
+          name='password'
+          value={values.password}
+          validators={['required']}
+          errorMessages={['This field is required']}
+        /> */}
         <StyledShadowInput
           id='password'
-          type={values.showPassword ? 'text' : 'password'}
+          type={state.showPassword ? 'text' : 'password'}
           value={values.password}
           onChange={handleChange('password')}
           endAdornment={
@@ -73,12 +125,13 @@ const PasswordForm = () => {
                 onMouseDown={handleMouseDownPassword}
                 edge='end'
               >
-                {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                {state.showPassword ? <VisibilityOff /> : <Visibility />}
               </StyledIconButton>
             </InputAdornment>
           }
           label='Password'
         />
+        <p style={{ color: 'red' }}>{passwordError}</p>
         <StyledList>
           <li>At least 8 characters</li>
           <li>A mixture of both uppercase and lowercase letters</li>
@@ -88,9 +141,19 @@ const PasswordForm = () => {
       </StyledFormControl>
       <StyledFormControl>
         <StyledLabel>Confirmation Password</StyledLabel>
+        {/* <StyledTextValidator
+          onChange={handleChange('confirmPassword')}
+          name='confirmPassword'
+          value={values.confirmPassword}
+          validators={['required', 'isPasswordMatch']}
+          errorMessages={[
+            'This field is required',
+            'Confirmation password does not match',
+          ]}
+        /> */}
         <StyledShadowInput
           id='password'
-          type={values.showConfirmPassword ? 'text' : 'password'}
+          type={state.showConfirmPassword ? 'text' : 'password'}
           value={values.confirmPassword}
           onChange={handleChange('confirmPassword')}
           endAdornment={
@@ -101,21 +164,20 @@ const PasswordForm = () => {
                 onMouseDown={handleMouseDownPassword}
                 edge='end'
               >
-                {values.showConfirmPassword ? (
-                  <VisibilityOff />
-                ) : (
-                  <Visibility />
-                )}
+                {state.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
               </StyledIconButton>
             </InputAdornment>
           }
           label='Confirm Password'
         />
+        <p style={{ color: 'red' }}>{confirmPassError}</p>
       </StyledFormControl>
       <StyledFormControlLabel
         control={<Checkbox />}
         label='I agree to the terms'
+        onChange={handleCheck}
       />
+      <p style={{ color: 'red' }}>{termsError}</p>
     </>
   );
 };
