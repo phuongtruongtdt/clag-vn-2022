@@ -8,16 +8,20 @@ router.get("/findall", async function (req, res) {
     try {
         const list = await clients_infoModels.findAll();
         if (list.length == 0) {
-            res.send("Empty list!!!")
+            res.send({
+                error_code: -1,
+                message: "Empty list"
+            })
         }
         else {
-            console.log(list)
             res.send(list)
         }
 
     } catch (error) {
-        console.log(error);
-        res.send("Something's not right :))")
+        res.send({
+            error_code: 1,
+            message: error
+        })
     }
 
 
@@ -28,15 +32,19 @@ router.get("/:id", async function (req, res) {
         const id = req.params.id;
         const result = await clients_infoModels.findById(id)
         if (!result) {
-            res.send("This client does not exist")
+            res.send({
+                error_code: -1,
+                message: "Client not found"
+            })
         }
         else {
-            console.log(result)
             res.send(result)
         }
     } catch (error) {
-        console.log(error)
-        res.send("Something's not right :))")
+        res.send({
+            error_code: 1,
+            message: error
+        })
     }
 });
 
@@ -45,15 +53,19 @@ router.get("/", async function (req, res) {
         const email = req.query.email;
         const result = await clients_infoModels.findByEmail(email)
         if (result.length === 0) {
-            res.send("This client does not exist")
+            res.send({
+                error_code: -1,
+                message: "Client not found"
+            })
         }
         else {
-            console.log(result)
             res.send(result)
         }
     } catch (error) {
-        console.log(error)
-        res.send("Something's not right :))")
+        res.send({
+            error_code: 1,
+            message: error
+        })
     }
 });
 
@@ -76,7 +88,10 @@ router.post("/register", async function (req, res) {
         await clients_infoModels.add(entity);
         res.send(entity)
     } catch (error) {
-        res.send("Can not register a new client")
+        res.send({
+            error_code: 1,
+            message: "Fail to register"
+        })
     }
 });
 
@@ -84,20 +99,32 @@ router.post("/login", async function (req, res) {
     try {
         const user = await clients_infoModels.findByEmail(req.body.email)
         if (user === null) {
-            res.send("Login Failed")
+            res.send({
+                error_code: 1,
+                message: "Login failed"
+            })
         }
         else {
             const check = bcrypt.compareSync(req.body.adornment_password,user.psword)
             if (check === true){
-                res.send("Login Successfully")
+                res.send({
+                    error_code: 0,
+                    message: "Login successfully"
+                })
             }
             if (check === false){
-                res.send("Login Failed")
+                res.send({
+                    error_code: 1,
+                    message: "Login failed"
+                })
             }
         }
 
     } catch (error) {
-        res.send("Login Failed")
+        res.send({
+            error_code: 1,
+            message: "Login failed"
+        })
     }
 });
 export default router;
