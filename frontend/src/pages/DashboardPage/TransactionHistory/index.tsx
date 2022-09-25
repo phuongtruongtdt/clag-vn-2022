@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import { PageContainer } from '../../../components/styles';
 import { Grid, Select, MenuItem, InputLabel, Box } from '@mui/material';
 import Map, { Marker, Popup } from 'react-map-gl';
@@ -10,6 +10,8 @@ import {
   StyledTextField,
   StyledButton,
   StyledMenu,
+  StyledTotalField,
+  StyledPopup,
 } from './style';
 import { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -17,6 +19,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Pin from './Pin';
 import PLACES from './../../../data/places.json';
+import LOCATIONS from './../../../data/locations.json';
+import CARDTYPES from './../../../data/card-types.json';
 
 interface State {
   startDate: Dayjs | null;
@@ -26,12 +30,17 @@ interface State {
 }
 
 interface Place {
-  city: string;
   address: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   transactionDate: string;
   amount: number;
+}
+
+interface Location {
+  city: string;
+  latitude: number;
+  longitude: number;
 }
 
 const TOKEN =
@@ -54,9 +63,20 @@ const TransactionHistory = () => {
 
   const [popupInfo, setPopupInfo] = useState<Place>(null as any);
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [detailList, setDetailList] = useState<Place[]>([]);
+
   const pins = useMemo(
     () =>
-      PLACES.map((place, index) => (
+      detailList.map((place, index) => (
         <Marker
           key={`marker-${index}`}
           longitude={place.longitude}
@@ -72,17 +92,44 @@ const TransactionHistory = () => {
           <Pin />
         </Marker>
       )),
-    []
+    [detailList]
   );
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [viewState, setViewState] = useState({
+    latitude: LOCATIONS[0].latitude,
+    longitude: LOCATIONS[0].longitude,
+    zoom: 12,
+    bearing: 0,
+    pitch: 0,
+  });
+
+  const handleChangeLocation = useCallback(
+    (event: SelectChangeEvent) => {
+      const value = event.target.value;
+      setState({ ...state, location: value });
+      const location =
+        LOCATIONS.find((item) => item.city === value) || LOCATIONS[0];
+      setViewState({
+        ...viewState,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      });
+    },
+    [state, viewState]
+  );
+
+  useEffect(() => {
+    if (state.startDate && state.endDate && state.cardType && state.location) {
+      setDetailList(PLACES);
+    }
+  }, [state]);
+
+  const total = useMemo(() => {
+    return detailList.reduce(
+      (previousValue, currentItem) => previousValue + currentItem.amount,
+      0
+    );
+  }, [detailList]);
 
   return (
     <PageContainer>
@@ -114,29 +161,33 @@ const TransactionHistory = () => {
             <StyledSelectContainer fullWidth>
               <InputLabel id='card-type-select-label'>Card type</InputLabel>
               <Select
+                style={{ fontFamily: 'Inter' }}
                 labelId='card-type-select-label'
                 id='card-type'
                 label='Card type'
                 value={state?.cardType}
                 onChange={handleChange('cardType')}
               >
-                <MenuItem value={10}>GBank - 1216361663013xxx</MenuItem>
-                <MenuItem value={20}>GBank - 1216361663013xxx</MenuItem>
-                <MenuItem value={30}>GBank - 1216361663013xxx</MenuItem>
+                {CARDTYPES.map((item) => (
+                  <MenuItem value={item.cardType}>{item.cardType}</MenuItem>
+                ))}
               </Select>
             </StyledSelectContainer>
             <StyledSelectContainer fullWidth>
               <InputLabel id='location-select-label'>Location</InputLabel>
               <Select
+                style={{ fontFamily: 'Inter' }}
                 labelId='location-select-label'
                 id='location'
                 label='Location'
-                value={state?.cardType}
-                onChange={handleChange('location')}
+                value={state?.location}
+                onChange={handleChangeLocation}
               >
-                <MenuItem value={10}>Ben Tre</MenuItem>
-                <MenuItem value={20}>Binh Duong</MenuItem>
-                <MenuItem value={30}>Ha Noi</MenuItem>
+                {LOCATIONS.map((item, index) => (
+                  <MenuItem key={index} value={item.city}>
+                    {item.city}
+                  </MenuItem>
+                ))}
               </Select>
             </StyledSelectContainer>
           </StyledContainer>
@@ -144,9 +195,9 @@ const TransactionHistory = () => {
         <Grid item xs={6}>
           <p>Transaction history</p>
           <StyledContainer>
-            <StyledTextField
+            <StyledTotalField
               type='text'
-              defaultValue='Total: 0 VND'
+              value={'Total: ' + total + ' VND'}
               variant='outlined'
               inputProps={{ readOnly: true }}
             />
@@ -156,6 +207,7 @@ const TransactionHistory = () => {
             aria-haspopup='true'
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
+            disabled={detailList.length === 0}
           >
             Detail list...
           </StyledButton>
@@ -178,42 +230,35 @@ const TransactionHistory = () => {
               },
             }}
           >
-            <MenuItem onClick={handleClose}>
-              156.000 - 348 Cach mang thang Tam, Quan 3
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              156.000 - 348 Cach mang thang Tam, Quan 3
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              156.000 - 348 Cach mang thang Tam, Quan 3
-            </MenuItem>
+            {detailList.map((item) => (
+              <MenuItem onClick={handleClose}>
+                {item.amount} - {item.address}
+              </MenuItem>
+            ))}
           </StyledMenu>
         </Grid>
       </StyledGrid>
       <Box style={{ marginTop: '2rem' }}>
         <Map
-          initialViewState={{
-            latitude: 10.8231,
-            longitude: 106.6297,
-            zoom: 10,
-            bearing: 0,
-            pitch: 0,
-          }}
+          {...viewState}
+          onMove={(evt) => setViewState(evt.viewState)}
           mapStyle='mapbox://styles/mapbox/streets-v9'
           mapboxAccessToken={TOKEN}
         >
           {pins}
           {popupInfo && (
-            <Popup
-              anchor='top'
+            <StyledPopup
+              anchor='left'
               longitude={Number(popupInfo.longitude)}
               latitude={Number(popupInfo.latitude)}
               onClose={() => setPopupInfo(null as any)}
             >
-              <p>{popupInfo.amount}</p>
+              <p style={{ color: 'red', fontWeight: 'bold' }}>
+                {popupInfo.amount} VND
+              </p>
               <p>{popupInfo.transactionDate}</p>
-              <p>{popupInfo.address}</p>
-            </Popup>
+              <p style={{ fontWeight: 'bold' }}>{popupInfo.address}</p>
+            </StyledPopup>
           )}
         </Map>
       </Box>

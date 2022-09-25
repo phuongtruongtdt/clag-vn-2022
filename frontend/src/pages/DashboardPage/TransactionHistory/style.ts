@@ -7,7 +7,7 @@ import {
   Menu,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import Map from 'react-map-gl';
+import Map, { Popup } from 'react-map-gl';
 
 export const StyledGrid = styled(Grid)(({ theme }) => ({
   color: theme.color.primary,
@@ -37,6 +37,17 @@ export const StyledSelectContainer = styled(FormControl)(({ theme }) => ({
 
 export const StyledTextField = styled(TextField)({
   width: '100%',
+  '& input': {
+    fontFamily: 'Inter',
+  },
+});
+
+export const StyledTotalField = styled(StyledTextField)({
+  '& input': {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontFamily: 'Inter',
+  },
 });
 
 export const StyledMap = styled(Map)({
@@ -53,8 +64,23 @@ export const StyledButton = styled(Button)(({ theme }) => ({
   '&:hover': {
     background: theme.color.primary,
   },
+  '&.Mui-disabled': {
+    background: 'rgba(27,115,87, 0.5)',
+    color: 'white',
+  },
 }));
 
 export const StyledMenu = styled(Menu)({
   width: '300.5px',
+});
+
+export const StyledPopup = styled(Popup)({
+  fontFamily: 'Inter',
+  '& button': {
+    display: 'none',
+  },
+  '& .mapboxgl-popup-content': {
+    borderRadius: '10px',
+    border: '1px solid red',
+  },
 });
