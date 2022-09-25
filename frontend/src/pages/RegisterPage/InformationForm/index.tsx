@@ -1,7 +1,5 @@
-import React from 'react';
 import {
   StyledFormControl,
-  StyledInput,
   StyledLabel,
   StyledShadowInput,
 } from '../../../components/styles';

@@ -22,7 +22,10 @@ const Banner = () => {
         </div>
       </Grid>
       <Grid xs={6}>
-        <StyledImage src={process.env.PUBLIC_URL + '/img/banner.svg'} />
+        <StyledImage
+          style={{ height: '25rem' }}
+          src={process.env.PUBLIC_URL + '/img/banner.svg'}
+        />
       </Grid>
     </Grid>
   );

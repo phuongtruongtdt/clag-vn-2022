@@ -23,7 +23,7 @@ export const StyledListItem = styled('li')(({ theme }) => ({
   margin: '0 2rem',
   fontWeight: theme.typography.fontWeightBold,
   color: theme.color.primary,
-  fontSize: '1.5rem',
+  fontSize: '1.25rem',
 }));
 
 export const StyledLink = styled('a')(({ theme }) => ({
@@ -34,6 +34,6 @@ export const StyledLink = styled('a')(({ theme }) => ({
 export const StyledTitle = styled('span')(({ theme }) => ({
   color: theme.color.primary,
   fontWeight: theme.typography.fontWeightBold,
-  marginLeft: '1.5rem',
-  fontSize: '2rem',
+  marginLeft: '0.75rem',
+  fontSize: '1.25rem',
 }));

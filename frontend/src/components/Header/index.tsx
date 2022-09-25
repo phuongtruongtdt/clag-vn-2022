@@ -16,11 +16,14 @@ const Header = (props: HeaderProps) => {
   const { isHomePage, isRegisterPage } = props;
   return (
     <StyledContainer
-      style={{ padding: isRegisterPage ? '3rem 4rem' : '0' }}
+      style={{ padding: isRegisterPage ? '2rem 4rem 1.5rem 4rem' : '0' }}
       justify={isHomePage}
     >
       <StyledLogo href='/'>
-        <img src={process.env.PUBLIC_URL + '/img/logo.svg'} />
+        <img
+          style={{ width: '4rem' }}
+          src={process.env.PUBLIC_URL + '/img/logo.svg'}
+        />
         <StyledTitle>GBank Co.</StyledTitle>
       </StyledLogo>
       <StyledList>

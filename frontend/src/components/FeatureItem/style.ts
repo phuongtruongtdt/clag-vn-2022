@@ -3,7 +3,7 @@ import { styled } from '@mui/material';
 export const StyledContainer = styled('div')(({ theme }) => ({
   color: '#b3b3b3',
   fontWeight: '500',
-  fontSize: '1.2rem',
+  fontSize: '1.15rem',
 }));
 
 export const StyledIcon = styled('img')({
@@ -15,7 +15,7 @@ export const StyledIcon = styled('img')({
 
 export const StyledTitle = styled('span')(({ theme }) => ({
   fontWeight: theme.typography.fontWeightBold,
-  fontSize: '1.5rem',
+  fontSize: '1.3rem',
   color: theme.color.white,
 }));
 

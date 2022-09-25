@@ -11,6 +11,6 @@ export const StyledContainer = styled('div')(({ theme }) => ({
 
 export const StyledArrow = styled('i')(({ theme }) => ({
   color: theme.color.yellow,
-  fontSize: '4rem',
+  fontSize: '5rem',
   margin: '0 2rem',
 }));

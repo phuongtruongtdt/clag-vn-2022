@@ -1,10 +1,9 @@
 import { FormControl, IconButton, OutlinedInput, styled } from '@mui/material';
 import { theme } from '../theme';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 
 export const PageContainer = styled('div')({
-  padding: '3rem 4rem',
+  padding: '2rem 4rem',
 });
 
 export const StyledImage = styled('img')({
@@ -17,9 +16,9 @@ export const StyledButton = styled('a')<{ isPrimary?: boolean }>`
   color: ${(props) => (props.isPrimary ? '#1b7357' : '#fff')};
   background: ${(props) => (props.isPrimary ? 'transparent' : '#1b7357')};
   margin-right: ${(props) => (props.isPrimary ? '0.25rem' : '0')};
-  padding: ${(props) => (props.isPrimary ? '0.75rem 2.25rem' : '1rem 2.25rem')};
+  padding: ${(props) => (props.isPrimary ? '0.5rem 2rem' : '0.75rem 2rem')};
   border-radius: 2rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   text-decoration: none;
   border: ${(props) => (props.isPrimary ? '4px solid #1b7357' : 'none')};
@@ -53,13 +52,13 @@ export const StyledLabel = styled('label')(({ theme }) => ({
 }));
 
 export const StyledInput = styled(OutlinedInput)(({ theme }) => ({
-  borderRadius: '1rem',
+  borderRadius: '0.75rem',
   backgroundColor: theme.color.green_light,
   '& > fieldset': {
     border: '0',
   },
   '& > input': {
-    padding: '1rem 1rem 0.5rem 1rem',
+    padding: '0.5rem 1rem 0.5rem 1rem',
     color: 'rgba(0, 0, 0, 0.5)',
     fontWeight: '500',
     fontSize: '1rem',

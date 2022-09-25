@@ -31,13 +31,13 @@ const RegisterPage = () => {
         container
       >
         <Grid style={{ display: 'flex', alignItems: 'center' }} xs={6}>
-          <p style={{ fontSize: '3rem' }}>
+          <p style={{ fontSize: '2.5rem' }}>
             {values.step === 'verification' ? (
               <>
                 <span
                   style={{
                     fontWeight: 'bold',
-                    fontSize: '3.5rem',
+                    fontSize: '3rem',
                     color: '#AEE5D4',
                   }}
                 >
@@ -47,7 +47,7 @@ const RegisterPage = () => {
                 <span
                   style={{
                     fontWeight: 'bold',
-                    fontSize: '3.5rem',
+                    fontSize: '3rem',
                     color: '#AEE5D4',
                   }}
                 >
@@ -59,7 +59,7 @@ const RegisterPage = () => {
                 <span
                   style={{
                     fontWeight: 'bold',
-                    fontSize: '3.5rem',
+                    fontSize: '3rem',
                     color: '#AEE5D4',
                   }}
                 >
@@ -71,7 +71,7 @@ const RegisterPage = () => {
                 <span
                   style={{
                     fontWeight: 'bold',
-                    fontSize: '3.5rem',
+                    fontSize: '3rem',
                     color: '#AEE5D4',
                   }}
                 >
