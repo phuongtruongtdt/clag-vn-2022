@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { PageContainer } from '../../../components/styles';
 import { Grid, Select, MenuItem, InputLabel, Box } from '@mui/material';
-import Map, { Marker, Popup } from 'react-map-gl';
+import Map, { Marker } from 'react-map-gl';
 import {
   StyledDatePicker,
   StyledContainer,
@@ -19,15 +19,26 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Pin from './Pin';
 import PLACES from './../../../data/places.json';
-import LOCATIONS from './../../../data/locations.json';
-import CARDTYPES from './../../../data/card-types.json';
 import axios from 'axios';
+
+interface PaymentMethod {
+  method_id: string;
+  method_name: string;
+}
+
+interface Location {
+  pc_name: string;
+  lat: number;
+  long: number;
+}
 
 interface State {
   startDate: Dayjs | null;
   endDate: Dayjs | null;
   cardType: string;
   location: string;
+  paymentMethods: PaymentMethod[];
+  locations: Location[];
 }
 
 interface Place {
@@ -36,12 +47,6 @@ interface Place {
   longitude: number;
   transactionDate: string;
   amount: number;
-}
-
-interface Location {
-  city: string;
-  latitude: number;
-  longitude: number;
 }
 
 const TOKEN =
@@ -54,6 +59,8 @@ const TransactionHistory = () => {
     endDate: null,
     cardType: '',
     location: '',
+    paymentMethods: [],
+    locations: [],
   });
   const handleChange = (prop: keyof State) => (event: SelectChangeEvent) => {
     setState({ ...state, [prop]: event.target.value });
@@ -97,8 +104,8 @@ const TransactionHistory = () => {
   );
 
   const [viewState, setViewState] = useState({
-    latitude: LOCATIONS[0].latitude,
-    longitude: LOCATIONS[0].longitude,
+    latitude: 10.8231,
+    longitude: 106.6297,
     zoom: 12,
     bearing: 0,
     pitch: 0,
@@ -109,11 +116,12 @@ const TransactionHistory = () => {
       const value = event.target.value;
       setState({ ...state, location: value });
       const location =
-        LOCATIONS.find((item) => item.city === value) || LOCATIONS[0];
+        state.locations.find((item) => item.pc_name === value) ||
+        state.locations[0];
       setViewState({
         ...viewState,
-        latitude: location.latitude,
-        longitude: location.longitude,
+        latitude: location.lat,
+        longitude: location.long,
       });
     },
     [state, viewState]
@@ -128,7 +136,12 @@ const TransactionHistory = () => {
   useEffect(() => {
     axios
       .get('http://localhost:3001/payment_methods/findall')
-      .then((result) => console.log('data', result.data));
+      .then((result) =>
+        setState((s) => ({ ...s, paymentMethods: result.data }))
+      );
+    axios
+      .get('http://localhost:3001/provinces_cities/findall')
+      .then((result) => setState((s) => ({ ...s, locations: result.data })));
   }, []);
 
   const total = useMemo(() => {
@@ -175,8 +188,8 @@ const TransactionHistory = () => {
                 value={state?.cardType}
                 onChange={handleChange('cardType')}
               >
-                {CARDTYPES.map((item) => (
-                  <MenuItem value={item.cardType}>{item.cardType}</MenuItem>
+                {state.paymentMethods?.map((item) => (
+                  <MenuItem value={item.method_id}>{item.method_name}</MenuItem>
                 ))}
               </Select>
             </StyledSelectContainer>
@@ -190,9 +203,9 @@ const TransactionHistory = () => {
                 value={state?.location}
                 onChange={handleChangeLocation}
               >
-                {LOCATIONS.map((item, index) => (
-                  <MenuItem key={index} value={item.city}>
-                    {item.city}
+                {state.locations?.map((item, index) => (
+                  <MenuItem key={index} value={item.pc_name}>
+                    {item.pc_name}
                   </MenuItem>
                 ))}
               </Select>
