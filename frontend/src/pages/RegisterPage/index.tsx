@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
-import { useCallback, useState, useEffect } from 'react';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { useCallback, useState } from 'react';
+import { ValidatorForm } from 'react-material-ui-form-validator';
 import Header from '../../components/Header';
 import InformationForm from './InformationForm';
 import { StyledArrow } from '../../components/styles';
@@ -12,6 +12,8 @@ import {
 } from './style';
 import PasswordForm from './PasswordForm';
 import VerificationForm from './VerificationForm';
+import axios from 'axios';
+import querystring from 'querystring';
 
 interface InformationValues {
   fullname: string;
@@ -60,7 +62,35 @@ const RegisterPage = () => {
         if (!values.passwordValues.agreeToTerms) {
           setTermsError('You must agree to terms before continue');
         } else {
-          setValues({ ...values, step: 'verification' });
+          const data = {
+            id: values.informationValues.personalID,
+            client_name: values.informationValues.fullname,
+            address: values.informationValues.address,
+            phone_num: values.informationValues.phoneNumber,
+            email: values.passwordValues.email,
+            psword: values.passwordValues.password,
+          };
+          axios({
+            method: 'post',
+            url: 'http://localhost:3001/clients/register',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data: querystring.stringify({
+              id: data.id,
+              client_name: data.client_name,
+              address: data.address,
+              phone_num: data.phone_num,
+              email: data.email,
+              psword: data.psword,
+            }),
+          })
+            .then((response) => {
+              if (response.status === 200) {
+                setValues({ ...values, step: 'verification' });
+              }
+            })
+            .catch((error) => error);
         }
       }
     },

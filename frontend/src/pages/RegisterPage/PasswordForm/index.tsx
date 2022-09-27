@@ -166,7 +166,7 @@ const PasswordForm = (props: {
           ]}
         /> */}
         <StyledShadowInput
-          id='password'
+          id='confirmPassword'
           type={state.showConfirmPassword ? 'text' : 'password'}
           value={values.confirmPassword}
           onChange={handleChange('confirmPassword')}
