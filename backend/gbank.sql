@@ -28,6 +28,7 @@ CREATE TABLE `bank_accounts` (
   `owner_id` varchar(20) DEFAULT NULL,
   `method_id` int DEFAULT NULL,
   `exp` date DEFAULT NULL,
+  `balance` double DEFAULT '0',
   PRIMARY KEY (`account_num`),
   KEY `account_method_idx` (`method_id`),
   KEY `account_client_idx` (`owner_id`),
@@ -42,7 +43,7 @@ CREATE TABLE `bank_accounts` (
 
 LOCK TABLES `bank_accounts` WRITE;
 /*!40000 ALTER TABLE `bank_accounts` DISABLE KEYS */;
-INSERT INTO `bank_accounts` VALUES ('55566677788','9988776666','271222123',1,'2027-07-01');
+INSERT INTO `bank_accounts` VALUES ('55566677788','9988776666','271222123',1,'2027-07-01',1000000000),('77722299991','6652525252','123456789',2,'2033-08-01',6666666666);
 /*!40000 ALTER TABLE `bank_accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,10 +85,10 @@ DROP TABLE IF EXISTS `locations`;
 CREATE TABLE `locations` (
   `id` int NOT NULL AUTO_INCREMENT,
   `location_name` varchar(100) DEFAULT NULL,
-  `lat` float DEFAULT NULL,
-  `lng` float DEFAULT NULL,
+  `lat` decimal(10,0) DEFAULT NULL,
+  `lng` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +97,7 @@ CREATE TABLE `locations` (
 
 LOCK TABLES `locations` WRITE;
 /*!40000 ALTER TABLE `locations` DISABLE KEYS */;
-INSERT INTO `locations` VALUES (1,'Ben Thanh Market',10.7725,106.698),(2,'Tocotoco Bubble Tea',10.7669,106.696);
+INSERT INTO `locations` VALUES (1,'Ben Thanh Market',11,107),(2,'Tocotoco Bubble Tea',11,107),(3,'GeoComply',11,107),(4,'Nha tho Duc Ba',11,107);
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +171,7 @@ CREATE TABLE `transactions` (
   KEY `transaction_location_idx` (`location_id`),
   CONSTRAINT `transaction_account` FOREIGN KEY (`account_num`) REFERENCES `bank_accounts` (`account_num`),
   CONSTRAINT `transaction_location` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,6 +180,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
+INSERT INTO `transactions` VALUES (1,'55566677788','Grab 123123 VN','2022-08-14 00:00:00',50000,2,0),(2,'55566677788','CHUYEN TIEN NHA','2022-07-31 00:00:00',4000000,3,0),(3,'55566677788','NAP TIEN DIEN THOAI','2022-09-25 00:00:00',100000,2,0),(4,'55566677788','TRA TIEN DIEN','2022-06-29 00:00:00',650000,1,0);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -191,4 +193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-25 15:23:00
+-- Dump completed on 2022-09-29 21:53:11
