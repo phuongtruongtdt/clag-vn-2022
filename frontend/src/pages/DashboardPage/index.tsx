@@ -7,6 +7,7 @@ import List from '@mui/material/List';
 import { mainListItems, secondaryListItems } from './listItems';
 import { StyledDivider, StyledLogo, StyledTitle } from './style';
 import TransactionHistory from './TransactionHistory';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth: number = 240;
 
@@ -44,8 +45,12 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
   const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
+  const username = localStorage.getItem('username');
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    navigate('/');
   };
 
   return (
@@ -63,7 +68,7 @@ function DashboardContent() {
           <List component='nav'>
             {mainListItems}
             <StyledDivider sx={{ my: 1 }} />
-            {secondaryListItems}
+            {secondaryListItems(username, handleLogout)}
           </List>
         </Drawer>
         <Box style={{ width: '100%' }} component='main'>
