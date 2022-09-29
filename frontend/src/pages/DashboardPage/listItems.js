@@ -17,6 +17,7 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined';
 import { StyledListItemIcon } from '../../components/styles';
+import { useNavigate } from 'react-router-dom';
 
 export const mainListItems = (
   <React.Fragment>
@@ -53,31 +54,33 @@ export const mainListItems = (
   </React.Fragment>
 );
 
-export const secondaryListItems = (
-  <React.Fragment>
-    <ListItemButton>
-      <StyledListItemIcon>
-        <HelpOutlineIcon />
-      </StyledListItemIcon>
-      <ListItemText primary='Get Help' />
-    </ListItemButton>
-    <ListItemButton>
-      <StyledListItemIcon>
-        <SettingsOutlinedIcon />
-      </StyledListItemIcon>
-      <ListItemText primary='Settings' />
-    </ListItemButton>
-    <ListItemButton>
-      <StyledListItemIcon>
-        <PersonOutlinedIcon />
-      </StyledListItemIcon>
-      <ListItemText primary='Tam Nguyen' />
-    </ListItemButton>
-    <ListItemButton>
-      <StyledListItemIcon>
-        <LogoutOutlinedIcon />
-      </StyledListItemIcon>
-      <ListItemText primary='Logout' />
-    </ListItemButton>
-  </React.Fragment>
-);
+export const secondaryListItems = (username, handleLogout) => {
+  return (
+    <React.Fragment>
+      <ListItemButton>
+        <StyledListItemIcon>
+          <HelpOutlineIcon />
+        </StyledListItemIcon>
+        <ListItemText primary='Get Help' />
+      </ListItemButton>
+      <ListItemButton>
+        <StyledListItemIcon>
+          <SettingsOutlinedIcon />
+        </StyledListItemIcon>
+        <ListItemText primary='Settings' />
+      </ListItemButton>
+      <ListItemButton>
+        <StyledListItemIcon>
+          <PersonOutlinedIcon />
+        </StyledListItemIcon>
+        <ListItemText primary={username} />
+      </ListItemButton>
+      <ListItemButton onClick={handleLogout}>
+        <StyledListItemIcon>
+          <LogoutOutlinedIcon />
+        </StyledListItemIcon>
+        <ListItemText primary='Logout' />
+      </ListItemButton>
+    </React.Fragment>
+  );
+};

@@ -10,12 +10,16 @@ import {
 } from '../../components/styles';
 import { useState } from 'react';
 import {
+  StyledErrorInput,
   StyledInput,
   StyledLink,
   StyledLinkContainer,
   StyledLoginButton,
   StyledTitle,
 } from './style';
+import axios from 'axios';
+import querystring from 'querystring';
+import { useNavigate } from 'react-router-dom';
 
 interface State {
   password: string;
@@ -29,6 +33,8 @@ const LoginPage = () => {
     username: '',
     showPassword: false,
   });
+  const [loginError, setLoginError] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange =
     (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +54,31 @@ const LoginPage = () => {
     event.preventDefault();
   };
 
+  const handleLogin = () => {
+    axios({
+      method: 'post',
+      url: 'http://localhost:3001/clients/login',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data: querystring.stringify({
+        email: values.username,
+        psword: values.password,
+      }),
+    })
+      .then((response) => {
+        if (response.data.error_code === 0) {
+          setLoginError(false);
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('username', response.data.username);
+          navigate('/');
+        } else {
+          setLoginError(true);
+        }
+      })
+      .catch((error) => error);
+  };
+
   return (
     <PageContainer>
       <Header />
@@ -58,37 +89,82 @@ const LoginPage = () => {
             please login.
           </StyledTitle>
           <FormControl style={{ width: '60%' }}>
-            <StyledInput
-              id='email'
-              placeholder='Enter your email or phone number'
-              type={'text'}
-              value={values.username}
-              onChange={handleChange('username')}
-            />
+            {loginError ? (
+              <StyledErrorInput
+                id='email'
+                placeholder='Enter your email or phone number'
+                type={'text'}
+                value={values.username}
+                onChange={handleChange('username')}
+              />
+            ) : (
+              <StyledInput
+                id='email'
+                placeholder='Enter your email or phone number'
+                type={'text'}
+                value={values.username}
+                onChange={handleChange('username')}
+              />
+            )}
           </FormControl>
           <FormControl style={{ width: '60%', marginTop: '2rem' }}>
-            <StyledInput
-              id='adornment-password'
-              placeholder='Password'
-              type={values.showPassword ? 'text' : 'password'}
-              value={values.password}
-              onChange={handleChange('password')}
-              endAdornment={
-                <InputAdornment position='end'>
-                  <StyledIconButton
-                    aria-label='toggle password visibility'
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge='end'
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </StyledIconButton>
-                </InputAdornment>
-              }
-              label='Password'
-            />
+            {loginError ? (
+              <StyledErrorInput
+                id='adornment-password'
+                placeholder='Password'
+                type={values.showPassword ? 'text' : 'password'}
+                value={values.password}
+                onChange={handleChange('password')}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <StyledIconButton
+                      aria-label='toggle password visibility'
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge='end'
+                    >
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </StyledIconButton>
+                  </InputAdornment>
+                }
+                label='Password'
+              />
+            ) : (
+              <StyledInput
+                id='adornment-password'
+                placeholder='Password'
+                type={values.showPassword ? 'text' : 'password'}
+                value={values.password}
+                onChange={handleChange('password')}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <StyledIconButton
+                      aria-label='toggle password visibility'
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge='end'
+                    >
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </StyledIconButton>
+                  </InputAdornment>
+                }
+                label='Password'
+              />
+            )}
+            {loginError && (
+              <p
+                style={{
+                  color: 'red',
+                  textAlign: 'left',
+                  marginTop: '1rem',
+                  marginLeft: '0.25rem',
+                }}
+              >
+                Fail to login.
+              </p>
+            )}
           </FormControl>
-          <StyledLoginButton>Login</StyledLoginButton>
+          <StyledLoginButton onClick={handleLogin}>Login</StyledLoginButton>
           <StyledLinkContainer>
             <StyledLink href='/forgot-password'>Forgot password?</StyledLink>
             <p>

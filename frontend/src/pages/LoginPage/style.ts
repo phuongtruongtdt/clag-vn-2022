@@ -28,6 +28,13 @@ export const StyledInput = styled(OutlinedInput)(({ theme }) => ({
   },
 }));
 
+export const StyledErrorInput = styled(StyledInput)({
+  backgroundColor: '#FFDED8',
+  '& > input': {
+    color: '#EB4335',
+  },
+});
+
 export const StyledLabel = styled(InputLabel)(({ theme }) => ({
   color: 'rgba(0, 0, 0, 0.3)',
   fontWeight: '300',
