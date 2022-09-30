@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Demo Website</title>
+</head>
+
+<body>
+    <script>
+        if ('geolocation' in navigator) {
+            console.log("geolocation is available");
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                console.log(position);
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                const data = {
+                    lat,
+                    lon,
+
+                }
+                const URL = "https://api.bigdatacloud.net/data/reverse-geocode?latitude=" + lat + "&longitude=" + lon + "&localityLanguage=en&key=bdc_c07f808bd36c438185437ce7a0b8feee"
+
+                options = {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                };
+
+                fetch(URL)
+                    .then((response) => response.json())
+                    .then((user) => {
+                        console.log(user.principalSubdivisionCode);
+                        console.log(user.principalSubdivision)
+                        const sending = {
+                            lat: lat,
+                            lng: lon,
+                            pc_name: user.principalSubdivision,
+                            isoCode: user.principalSubdivisionCode
+                        }
+                        options = {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(sending)
+                        };
+                        fetch('/api', options);
+                    });
+
+
+
+            });
+        } else {
+            console.log(' geolocation IS NOT available ');
+        }
+    </script>
+    <h1>The Pieces of Eden</h1>
+    <p>This is a demo</p>
+
+</body>
+
+</html>
