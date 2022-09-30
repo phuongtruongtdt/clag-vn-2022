@@ -34,12 +34,13 @@ router.get("/getRange", async function (req, res) {
         const end =  moment(req.query.end,"DD/MM/YYYY").format("YYYY-MM-DD");
         
         const account_num = req.query.account_num;
-       const result = await transactionsModels.getRange(account_num,start,end);
+        const pc= req.query.pc;
+        const result = await transactionsModels.getRange(account_num,start,end,pc);
         console.log(result)
         if (result.length === 0) {
             res.send({
                 error_code: -1,
-                message: "Client not found"
+                message: "Transaction not found"
             })
         }
         else {

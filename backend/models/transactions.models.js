@@ -11,12 +11,12 @@ export default {
     add(entity) {
         return db("transactions").insert(entity);
     },
-    async getRange(account, start, end) {
+    async getRange(account, start, end,city) {
 
         const sql =
             `select * from transactions t left join locations l on t.location_id = l.id
             left join provinces_cities p on p.id = l.pc_id
-            where account_num =`+account +` and ( t.ts between '`+start+`' and '`+end+`')
+            where account_num =`+account +` and ( t.ts between '`+start+`' and '`+end+`') and p.pc_name='`+city+`'
             order by t.ts DESC`;
 
         const raw = await db.raw(sql);
