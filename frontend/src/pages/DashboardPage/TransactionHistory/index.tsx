@@ -17,9 +17,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Pin from './Pin';
-import PLACES from './../../../data/places.json';
 import axios from 'axios';
 import TransactionItem from './TransactionItem';
+import { format, parseISO } from 'date-fns';
 
 interface BankAccount {
   account_num: string;
@@ -39,18 +39,23 @@ interface Location {
 interface State {
   startDate: Dayjs | null;
   endDate: Dayjs | null;
-  cardType: string;
+  bankAccount: string;
   location: string;
   bankAccounts: BankAccount[];
   locations: Location[];
 }
 
 interface Place {
-  address: string;
-  latitude: number;
-  longitude: number;
-  transactionDate: string;
+  account_num: string;
   amount: number;
+  des: string;
+  id: number;
+  lat: string;
+  lng: string;
+  location_id: number;
+  location_name: string;
+  money_in: 0;
+  ts: string;
 }
 
 const TOKEN =
@@ -61,7 +66,7 @@ const TransactionHistory = () => {
   const [state, setState] = useState<State>({
     startDate: null,
     endDate: null,
-    cardType: '',
+    bankAccount: '',
     location: '',
     bankAccounts: [],
     locations: [],
@@ -91,8 +96,8 @@ const TransactionHistory = () => {
       detailList.map((place, index) => (
         <Marker
           key={`marker-${index}`}
-          longitude={place.longitude}
-          latitude={place.latitude}
+          longitude={Number(place.lng)}
+          latitude={Number(place.lat)}
           anchor='bottom'
           onClick={(e) => {
             // If we let the click event propagates to the map, it will immediately close the popup
@@ -132,8 +137,19 @@ const TransactionHistory = () => {
   );
 
   useEffect(() => {
-    if (state.startDate && state.endDate && state.cardType && state.location) {
-      setDetailList(PLACES);
+    if (
+      state.startDate &&
+      state.endDate &&
+      state.bankAccount &&
+      state.location
+    ) {
+      const formatStartDate = state.startDate.format('DD/MM/YYYY');
+      const formatEndDate = state.endDate.format('DD/MM/YYYY');
+      axios
+        .get(
+          `http://localhost:3001/transactions/getRange?start=${formatStartDate}&end=${formatEndDate}&account_num=${state.bankAccount}`
+        )
+        .then((result) => setDetailList(result.data));
     }
   }, [state]);
 
@@ -181,24 +197,34 @@ const TransactionHistory = () => {
           <p>Information</p>
           <StyledContainer>
             <StyledSelectContainer fullWidth>
-              <InputLabel id='card-type-select-label'>Bank account</InputLabel>
+              <InputLabel
+                style={{ fontFamily: 'Inter' }}
+                id='card-type-select-label'
+              >
+                Bank account
+              </InputLabel>
               <Select
                 style={{ fontFamily: 'Inter' }}
                 labelId='card-type-select-label'
                 id='card-type'
                 label='Card type'
-                value={state?.cardType}
-                onChange={handleChange('cardType')}
+                value={state?.bankAccount}
+                onChange={handleChange('bankAccount')}
               >
                 {state.bankAccounts?.map((item) => (
-                  <MenuItem value={item.method_id}>
+                  <MenuItem value={item.account_num}>
                     GBank - {item.account_num}
                   </MenuItem>
                 ))}
               </Select>
             </StyledSelectContainer>
             <StyledSelectContainer fullWidth>
-              <InputLabel id='location-select-label'>Location</InputLabel>
+              <InputLabel
+                style={{ fontFamily: 'Inter' }}
+                id='location-select-label'
+              >
+                Location
+              </InputLabel>
               <Select
                 style={{ fontFamily: 'Inter' }}
                 labelId='location-select-label'
@@ -257,7 +283,13 @@ const TransactionHistory = () => {
           >
             {detailList.map((item) => (
               <MenuItem onClick={handleClose}>
-                <TransactionItem />
+                <TransactionItem
+                  description={item.des}
+                  amount={item.amount}
+                  time={format(parseISO(item.ts), 'HH:mm - dd/MM/yyyy')}
+                  name={item.location_name}
+                  address=''
+                />
               </MenuItem>
             ))}
             <MenuItem onClick={handleClose}>
@@ -279,15 +311,32 @@ const TransactionHistory = () => {
           {popupInfo && (
             <StyledPopup
               anchor='left'
-              longitude={Number(popupInfo.longitude)}
-              latitude={Number(popupInfo.latitude)}
+              longitude={Number(popupInfo.lng)}
+              latitude={Number(popupInfo.lat)}
               onClose={() => setPopupInfo(null as any)}
             >
-              <p style={{ color: 'red', fontWeight: 'bold' }}>
-                {popupInfo.amount} VND
-              </p>
-              <p>{popupInfo.transactionDate}</p>
-              <p style={{ fontWeight: 'bold' }}>{popupInfo.address}</p>
+              <div
+                style={{
+                  fontFamily: 'Inter',
+                  borderRadius: '0.75rem',
+                  width: '100%',
+                  padding: '0.2rem',
+                }}
+              >
+                <p style={{ fontWeight: '500' }}>{popupInfo.des}</p>
+                <p style={{ fontWeight: 'bold', color: '#1B7357' }}>
+                  -{popupInfo.amount} VND
+                </p>
+                <p style={{ fontSize: '0.7rem' }}>
+                  {format(parseISO(popupInfo.ts), 'HH:mm - dd/MM/yyyy')}
+                </p>
+                <p>
+                  <span style={{ fontWeight: 'bold' }}>
+                    {popupInfo.location_name}
+                  </span>{' '}
+                  - address
+                </p>
+              </div>
             </StyledPopup>
           )}
         </Map>

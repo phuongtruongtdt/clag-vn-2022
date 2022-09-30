@@ -26,6 +26,9 @@ export const StyledDatePicker = styled(DatePicker)(({ theme }) => ({
   '& input': {
     padding: '14px',
   },
+  '& label': {
+    fontFamily: 'Inter',
+  },
 }));
 
 export const StyledSelectContainer = styled(FormControl)(({ theme }) => ({
@@ -80,7 +83,7 @@ export const StyledPopup = styled(Popup)({
     display: 'none',
   },
   '& .mapboxgl-popup-content': {
-    borderRadius: '10px',
-    border: '1px solid red',
+    borderRadius: '0.75rem',
+    boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
   },
 });
