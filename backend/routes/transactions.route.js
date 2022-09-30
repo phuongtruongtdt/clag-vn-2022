@@ -30,9 +30,12 @@ router.get("/findall", async function (req, res) {
 
 router.get("/getRange", async function (req, res) {
     try {
-        const start = moment(req.query.start,"DD/MM/YYYY").format("YYYY/MM/DD");
-        const end =  moment(req.query.end,"DD/MM/YYYY").format("YYYY/MM/DD");
-        const result = await transactionsModels.getRange()
+        const start = moment(req.query.start,"DD/MM/YYYY").format("YYYY-MM-DD");
+        const end =  moment(req.query.end,"DD/MM/YYYY").format("YYYY-MM-DD");
+        
+        const account_num = req.query.account_num;
+       const result = await transactionsModels.getRange(account_num,start,end);
+        console.log(result)
         if (result.length === 0) {
             res.send({
                 error_code: -1,
@@ -45,8 +48,10 @@ router.get("/getRange", async function (req, res) {
     } catch (error) {
         res.send({
             error_code: 1,
-            message: error
-        })
+            message: ""
+           
+        });
+        console.log(error);
     }
 });
 
