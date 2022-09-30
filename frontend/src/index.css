@@ -72,3 +72,22 @@ code {
 .mapboxgl-map {
   height: 500px!important
 }
+
+#transaction-details-list div:nth-child(3)::-webkit-scrollbar {
+  display: none;
+}
+
+#transaction-details-list div:nth-child(3){
+  top: 117px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 12px;
+}
+
+#transaction-details-list div:nth-child(3) ul {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+#transaction-details-list div:nth-child(3) ul li {
+  padding: 0.7rem 0.7rem 0.3rem 0.7rem;
+}

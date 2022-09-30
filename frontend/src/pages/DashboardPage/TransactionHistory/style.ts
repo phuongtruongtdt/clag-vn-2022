@@ -70,9 +70,9 @@ export const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export const StyledMenu = styled(Menu)({
-  width: '300.5px',
-});
+// export const StyledMenu = styled(Menu)({
+//   width: '300.5px',
+// });
 
 export const StyledPopup = styled(Popup)({
   fontFamily: 'Inter',

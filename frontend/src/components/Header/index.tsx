@@ -29,6 +29,12 @@ const Header = (props: HeaderProps) => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    navigate('/');
+  };
+
   return (
     <StyledContainer
       style={{ padding: isRegisterPage ? '2rem 4rem 1.5rem 4rem' : '0' }}
@@ -89,6 +95,12 @@ const Header = (props: HeaderProps) => {
               }}
             >
               Dashboard
+            </MenuItem>
+            <MenuItem
+              style={{ fontSize: '1rem', color: '#1b7357!important' }}
+              onClick={handleLogout}
+            >
+              Logout
             </MenuItem>
           </Menu>
         </>

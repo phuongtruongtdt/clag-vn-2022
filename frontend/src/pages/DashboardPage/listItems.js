@@ -1,12 +1,7 @@
 import * as React from 'react';
+import { styled } from '@mui/material';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
@@ -17,7 +12,12 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined';
 import { StyledListItemIcon } from '../../components/styles';
-import { useNavigate } from 'react-router-dom';
+
+const StyledListItemText = styled(ListItemText)({
+  '& span': {
+    fontWeight: 'bold',
+  },
+});
 
 export const mainListItems = (
   <React.Fragment>
@@ -43,7 +43,7 @@ export const mainListItems = (
       <StyledListItemIcon>
         <QueryStatsIcon />
       </StyledListItemIcon>
-      <ListItemText primary='Statistics' />
+      <StyledListItemText primary='Statistics' />
     </ListItemButton>
     <ListItemButton>
       <StyledListItemIcon>

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { PageContainer } from '../../../components/styles';
-import { Grid, Select, MenuItem, InputLabel, Box } from '@mui/material';
+import { Grid, Select, MenuItem, InputLabel, Box, Menu } from '@mui/material';
 import Map, { Marker } from 'react-map-gl';
 import {
   StyledDatePicker,
@@ -9,7 +9,6 @@ import {
   StyledSelectContainer,
   StyledTextField,
   StyledButton,
-  StyledMenu,
   StyledTotalField,
   StyledPopup,
 } from './style';
@@ -20,6 +19,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import Pin from './Pin';
 import PLACES from './../../../data/places.json';
 import axios from 'axios';
+import TransactionItem from './TransactionItem';
 
 interface PaymentMethod {
   method_id: string;
@@ -231,7 +231,8 @@ const TransactionHistory = () => {
           >
             Detail list...
           </StyledButton>
-          <StyledMenu
+          <Menu
+            id='transaction-details-list'
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
@@ -245,17 +246,22 @@ const TransactionHistory = () => {
             }}
             PaperProps={{
               style: {
-                maxHeight: ITEM_HEIGHT * 4.5,
-                width: '20ch',
+                maxHeight: ITEM_HEIGHT * 7.5,
+                width: '43ch',
               },
             }}
           >
             {detailList.map((item) => (
               <MenuItem onClick={handleClose}>
-                {item.amount} - {item.address}
+                <TransactionItem />
               </MenuItem>
             ))}
-          </StyledMenu>
+            <MenuItem onClick={handleClose}>
+              <StyledButton style={{ fontSize: '1rem', padding: '0.25rem' }}>
+                Close
+              </StyledButton>
+            </MenuItem>
+          </Menu>
         </Grid>
       </StyledGrid>
       <Box style={{ marginTop: '2rem' }}>
