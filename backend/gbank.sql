@@ -43,7 +43,7 @@ CREATE TABLE `bank_accounts` (
 
 LOCK TABLES `bank_accounts` WRITE;
 /*!40000 ALTER TABLE `bank_accounts` DISABLE KEYS */;
-INSERT INTO `bank_accounts` VALUES ('55566677788','9988776666','271222123',1,'2027-07-01',1000000000),('77722299991','6652525252','123456789',2,'2033-08-01',6666666666);
+INSERT INTO `bank_accounts` VALUES ('23973987411',NULL,'271222123',2,'2027-06-01',5000000000),('55566677788','9988776666','271222123',1,'2027-07-01',1000000000),('77722299991','6652525252','123456789',2,'2033-08-01',6666666666);
 /*!40000 ALTER TABLE `bank_accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,8 +85,8 @@ DROP TABLE IF EXISTS `locations`;
 CREATE TABLE `locations` (
   `id` int NOT NULL AUTO_INCREMENT,
   `location_name` varchar(100) DEFAULT NULL,
-  `lat` decimal(10,0) DEFAULT NULL,
-  `lng` decimal(10,0) DEFAULT NULL,
+  `lat` decimal(15,7) DEFAULT NULL,
+  `lng` decimal(15,7) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -97,7 +97,7 @@ CREATE TABLE `locations` (
 
 LOCK TABLES `locations` WRITE;
 /*!40000 ALTER TABLE `locations` DISABLE KEYS */;
-INSERT INTO `locations` VALUES (1,'Ben Thanh Market',11,107),(2,'Tocotoco Bubble Tea',11,107),(3,'GeoComply',11,107),(4,'Nha tho Duc Ba',11,107);
+INSERT INTO `locations` VALUES (1,'Ben Thanh Market',10.7731913,106.6979350),(2,'Tocotoco Bubble Tea',10.7709975,106.6694916),(3,'GeoComply',10.7863269,106.6976925),(4,'Nha tho Duc Ba',10.7802924,106.6987164);
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +162,7 @@ CREATE TABLE `transactions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `account_num` varchar(20) DEFAULT NULL,
   `des` longtext,
-  `time` datetime DEFAULT NULL,
+  `ts` datetime DEFAULT NULL,
   `amount` int DEFAULT NULL,
   `location_id` int DEFAULT NULL,
   `money_in` tinyint DEFAULT NULL,
@@ -193,4 +193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-29 21:53:11
+-- Dump completed on 2022-09-30 20:26:53
