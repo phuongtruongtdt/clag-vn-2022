@@ -93,6 +93,7 @@ const TransactionHistory = () => {
 
   const pins = useMemo(
     () =>
+      detailList.length > 0 &&
       detailList.map((place, index) => (
         <Marker
           key={`marker-${index}`}
@@ -147,9 +148,12 @@ const TransactionHistory = () => {
       const formatEndDate = state.endDate.format('DD/MM/YYYY');
       axios
         .get(
-          `http://localhost:3001/transactions/getRange?start=${formatStartDate}&end=${formatEndDate}&account_num=${state.bankAccount}`
+          `http://localhost:3001/transactions/getRange?start=${formatStartDate}&end=${formatEndDate}&account_num=${state.bankAccount}&pc=${state.location}`
         )
-        .then((result) => setDetailList(result.data));
+        .then((result) => {
+          if (result.data.error_code === -1) setDetailList([]);
+          else setDetailList(result.data);
+        });
     }
   }, [state]);
 
@@ -163,10 +167,16 @@ const TransactionHistory = () => {
   }, []);
 
   const total = useMemo(() => {
-    return detailList.reduce(
-      (previousValue, currentItem) => previousValue + currentItem.amount,
-      0
-    );
+    return detailList.length > 0
+      ? detailList.reduce(
+          (previousValue, currentItem) => previousValue + currentItem.amount,
+          0
+        )
+      : 0;
+  }, [detailList]);
+
+  const isDisabled = useMemo(() => {
+    return detailList.length === 0;
   }, [detailList]);
 
   return (
@@ -257,7 +267,7 @@ const TransactionHistory = () => {
             aria-haspopup='true'
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
-            disabled={detailList.length === 0}
+            disabled={isDisabled}
           >
             Detail list...
           </StyledButton>
@@ -281,17 +291,18 @@ const TransactionHistory = () => {
               },
             }}
           >
-            {detailList.map((item) => (
-              <MenuItem onClick={handleClose}>
-                <TransactionItem
-                  description={item.des}
-                  amount={item.amount}
-                  time={format(parseISO(item.ts), 'HH:mm - dd/MM/yyyy')}
-                  name={item.location_name}
-                  address=''
-                />
-              </MenuItem>
-            ))}
+            {detailList.length > 0 &&
+              detailList.map((item) => (
+                <MenuItem onClick={handleClose}>
+                  <TransactionItem
+                    description={item.des}
+                    amount={item.amount}
+                    time={format(parseISO(item.ts), 'HH:mm - dd/MM/yyyy')}
+                    name={item.location_name}
+                    address=''
+                  />
+                </MenuItem>
+              ))}
             <MenuItem onClick={handleClose}>
               <StyledButton style={{ fontSize: '1rem', padding: '0.25rem' }}>
                 Close
@@ -315,28 +326,42 @@ const TransactionHistory = () => {
               latitude={Number(popupInfo.lat)}
               onClose={() => setPopupInfo(null as any)}
             >
-              <div
-                style={{
-                  fontFamily: 'Inter',
-                  borderRadius: '0.75rem',
-                  width: '100%',
-                  padding: '0.2rem',
-                }}
-              >
-                <p style={{ fontWeight: '500' }}>{popupInfo.des}</p>
-                <p style={{ fontWeight: 'bold', color: '#1B7357' }}>
-                  -{popupInfo.amount} VND
-                </p>
-                <p style={{ fontSize: '0.7rem' }}>
-                  {format(parseISO(popupInfo.ts), 'HH:mm - dd/MM/yyyy')}
-                </p>
-                <p>
-                  <span style={{ fontWeight: 'bold' }}>
-                    {popupInfo.location_name}
-                  </span>{' '}
-                  - address
-                </p>
-              </div>
+              {detailList.length > 0 &&
+                detailList
+                  .filter(
+                    (item) =>
+                      item.lng === popupInfo.lng && item.lat === popupInfo.lat
+                  )
+                  .map((popup) => (
+                    <div
+                      style={{
+                        fontFamily: 'Inter',
+                        borderRadius: '0.75rem',
+                        width: '100%',
+                        padding: '0.2rem',
+                      }}
+                    >
+                      <p style={{ fontWeight: '500' }}>{popup.des}</p>
+                      <p style={{ fontWeight: 'bold', color: '#1B7357' }}>
+                        -{popup.amount} VND
+                      </p>
+                      <p style={{ fontSize: '0.7rem' }}>
+                        {format(parseISO(popup.ts), 'HH:mm - dd/MM/yyyy')}
+                      </p>
+                      <p>
+                        <span style={{ fontWeight: 'bold' }}>
+                          {popup.location_name}
+                        </span>{' '}
+                        - address
+                      </p>
+                      <hr
+                        style={{
+                          marginTop: '0.3rem',
+                          backgroundColor: 'rgba(0,0,0,0.5)',
+                        }}
+                      />
+                    </div>
+                  ))}
             </StyledPopup>
           )}
         </Map>
