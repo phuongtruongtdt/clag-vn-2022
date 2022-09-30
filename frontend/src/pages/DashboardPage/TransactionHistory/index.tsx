@@ -54,6 +54,7 @@ interface Place {
   lng: string;
   location_id: number;
   location_name: string;
+  location_address: string;
   money_in: 0;
   ts: string;
 }
@@ -299,7 +300,7 @@ const TransactionHistory = () => {
                     amount={item.amount}
                     time={format(parseISO(item.ts), 'HH:mm - dd/MM/yyyy')}
                     name={item.location_name}
-                    address=''
+                    address={item.location_address}
                   />
                 </MenuItem>
               ))}
@@ -348,18 +349,24 @@ const TransactionHistory = () => {
                       <p style={{ fontSize: '0.7rem' }}>
                         {format(parseISO(popup.ts), 'HH:mm - dd/MM/yyyy')}
                       </p>
-                      <p>
+                      <p style={{ whiteSpace: 'normal' }}>
                         <span style={{ fontWeight: 'bold' }}>
                           {popup.location_name}
                         </span>{' '}
-                        - address
+                        {popup.location_address}
                       </p>
-                      <hr
-                        style={{
-                          marginTop: '0.3rem',
-                          backgroundColor: 'rgba(0,0,0,0.5)',
-                        }}
-                      />
+                      {detailList.filter(
+                        (item) =>
+                          item.lng === popupInfo.lng &&
+                          item.lat === popupInfo.lat
+                      ).length > 1 && (
+                        <hr
+                          style={{
+                            marginTop: '0.3rem',
+                            backgroundColor: 'rgba(0,0,0,0.5)',
+                          }}
+                        />
+                      )}
                     </div>
                   ))}
             </StyledPopup>

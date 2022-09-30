@@ -25,7 +25,7 @@ const TransactionItem = (props: {
         {amount ? `-${amount}` : `${money_in}`} VND
       </p>
       <p style={{ fontSize: '0.7rem' }}>{time}</p>
-      <p>
+      <p style={{ whiteSpace: 'normal' }}>
         <span style={{ fontWeight: 'bold' }}>{name}</span> - {address}
       </p>
     </div>
