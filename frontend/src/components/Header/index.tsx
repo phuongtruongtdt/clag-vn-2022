@@ -106,13 +106,25 @@ const Header = (props: HeaderProps) => {
         </>
       ) : (
         <>
-          {isHomePage && (
+          {isHomePage ? (
             <div>
               <StyledButton isPrimary href='/login'>
                 Login
               </StyledButton>
               <StyledButton href='/register'>Register</StyledButton>
             </div>
+          ) : (
+            <>
+              {isRegisterPage && (
+                <StyledButton
+                  style={{ marginLeft: '10rem' }}
+                  isPrimary
+                  href='/login'
+                >
+                  Login
+                </StyledButton>
+              )}
+            </>
           )}
         </>
       )}

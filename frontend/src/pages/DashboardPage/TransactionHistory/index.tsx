@@ -75,6 +75,11 @@ const TransactionHistory = () => {
   const handleChange = (prop: keyof State) => (event: SelectChangeEvent) => {
     setState({ ...state, [prop]: event.target.value });
   };
+
+  const process = (date: string) => {
+    var parts = date.split('/');
+    return new Date(parts[2] as any, (parts[1] as any) - 1, parts[0] as any);
+  };
   const handleSelectDate = (prop: keyof State) => (value: any) => {
     setState({ ...state, [prop]: value });
   };
@@ -158,9 +163,13 @@ const TransactionHistory = () => {
     }
   }, [state]);
 
+  const ownerId = localStorage.getItem('ownerId');
+
   useEffect(() => {
     axios
-      .get('http://localhost:3001/bank_accounts/findByOwner')
+      .get(
+        `http://localhost:3001/bank_accounts/findByOwner?owner_id=${ownerId}`
+      )
       .then((result) => setState((s) => ({ ...s, bankAccounts: result.data })));
     axios
       .get('http://localhost:3001/provinces_cities/findall')
@@ -179,6 +188,8 @@ const TransactionHistory = () => {
   const isDisabled = useMemo(() => {
     return detailList.length === 0;
   }, [detailList]);
+
+  const [isEndDateError, setIsEndDateError] = useState<boolean>(false);
 
   return (
     <PageContainer>
@@ -201,6 +212,11 @@ const TransactionHistory = () => {
                 inputFormat='DD/MM/YYYY'
                 renderInput={(params) => <StyledTextField {...params} />}
               />
+              {isEndDateError && (
+                <p style={{ color: 'red' }}>
+                  End date must be greater than start date
+                </p>
+              )}
             </LocalizationProvider>
           </StyledContainer>
         </Grid>

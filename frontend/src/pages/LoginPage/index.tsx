@@ -71,6 +71,7 @@ const LoginPage = () => {
           setLoginError(false);
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('username', response.data.username);
+          localStorage.setItem('ownerId', response.data.id);
           navigate('/');
         } else {
           setLoginError(true);

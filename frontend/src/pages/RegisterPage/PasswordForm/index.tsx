@@ -59,7 +59,7 @@ const PasswordForm = (props: {
     } else if (password.match(/\d+/) === null) {
       setPasswordError('Password must have at least a number');
     } else if (
-      password.match(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]@./g) === null
+      password.match(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?@.]/g) === null
     ) {
       setPasswordError('Password must have at least a special character');
     } else setPasswordError('');

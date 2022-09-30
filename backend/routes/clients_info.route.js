@@ -104,6 +104,7 @@ router.post('/login', async function (req, res) {
           error_code: 0,
           message: 'Login successfully',
           username: `${user.client_name}`,
+          id: `${user.id}`,
         });
       }
       if (check === false) {

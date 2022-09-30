@@ -24,8 +24,7 @@ router.get('/findall', async function (req, res) {
 
 router.get('/findByOwner', async function (req, res) {
   try {
-    const list = await bank_accountsModel.findByOwner('271222123');
-
+    const list = await bank_accountsModel.findByOwner(req.query.owner_id);
     if (list.length == 0) {
       res.send({
         error_code: -1,
