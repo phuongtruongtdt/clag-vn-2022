@@ -14,7 +14,8 @@ export default {
     async getRange(account, start, end) {
 
         const sql =
-            `select * from transactions t join locations l on t.location_id = l.id
+            `select * from transactions t left join locations l on t.location_id = l.id
+            left join provinces_cities p on p.id = l.pc_id
             where account_num =`+account +` and ( t.ts between '`+start+`' and '`+end+`')
             order by t.ts DESC`;
 

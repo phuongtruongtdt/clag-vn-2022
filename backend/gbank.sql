@@ -87,7 +87,10 @@ CREATE TABLE `locations` (
   `location_name` varchar(100) DEFAULT NULL,
   `lat` decimal(15,7) DEFAULT NULL,
   `lng` decimal(15,7) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `pc_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `locations_pc_idx` (`pc_id`),
+  CONSTRAINT `locations_pc` FOREIGN KEY (`pc_id`) REFERENCES `provinces_cities` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -97,7 +100,7 @@ CREATE TABLE `locations` (
 
 LOCK TABLES `locations` WRITE;
 /*!40000 ALTER TABLE `locations` DISABLE KEYS */;
-INSERT INTO `locations` VALUES (1,'Ben Thanh Market',10.7731913,106.6979350),(2,'Tocotoco Bubble Tea',10.7709975,106.6694916),(3,'GeoComply',10.7863269,106.6976925),(4,'Nha tho Duc Ba',10.7802924,106.6987164);
+INSERT INTO `locations` VALUES (1,'Ben Thanh Market',10.7731913,106.6979350,1),(2,'Tocotoco Bubble Tea',10.7709975,106.6694916,1),(3,'GeoComply',10.7863269,106.6976925,1),(4,'Nha tho Duc Ba',10.7802924,106.6987164,1);
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,6 +140,7 @@ CREATE TABLE `provinces_cities` (
   `pc_name` varchar(45) DEFAULT NULL,
   `lat` float DEFAULT NULL,
   `long` float DEFAULT NULL,
+  `isoCode` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -147,7 +151,7 @@ CREATE TABLE `provinces_cities` (
 
 LOCK TABLES `provinces_cities` WRITE;
 /*!40000 ALTER TABLE `provinces_cities` DISABLE KEYS */;
-INSERT INTO `provinces_cities` VALUES (1,'Ho Chi Minh',10.8167,106.633),(2,'Binh Duong',11.3254,106.477),(3,'Ben Tre',10.2434,106.376);
+INSERT INTO `provinces_cities` VALUES (1,'Ho Chi Minh',10.8167,106.633,'VN-SG'),(2,'Binh Duong',11.3254,106.477,'VN-57'),(3,'Ben Tre',10.2434,106.376,'VN-50');
 /*!40000 ALTER TABLE `provinces_cities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-30 20:26:53
+-- Dump completed on 2022-09-30 21:16:46
