@@ -21,9 +21,13 @@ import PLACES from './../../../data/places.json';
 import axios from 'axios';
 import TransactionItem from './TransactionItem';
 
-interface PaymentMethod {
+interface BankAccount {
+  account_num: string;
+  card_num: string;
+  owner_id: string;
   method_id: string;
-  method_name: string;
+  exp: string;
+  balance: number;
 }
 
 interface Location {
@@ -37,7 +41,7 @@ interface State {
   endDate: Dayjs | null;
   cardType: string;
   location: string;
-  paymentMethods: PaymentMethod[];
+  bankAccounts: BankAccount[];
   locations: Location[];
 }
 
@@ -59,7 +63,7 @@ const TransactionHistory = () => {
     endDate: null,
     cardType: '',
     location: '',
-    paymentMethods: [],
+    bankAccounts: [],
     locations: [],
   });
   const handleChange = (prop: keyof State) => (event: SelectChangeEvent) => {
@@ -135,10 +139,8 @@ const TransactionHistory = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/payment_methods/findall')
-      .then((result) =>
-        setState((s) => ({ ...s, paymentMethods: result.data }))
-      );
+      .get('http://localhost:3001/bank_accounts/findByOwner')
+      .then((result) => setState((s) => ({ ...s, bankAccounts: result.data })));
     axios
       .get('http://localhost:3001/provinces_cities/findall')
       .then((result) => setState((s) => ({ ...s, locations: result.data })));
@@ -179,7 +181,7 @@ const TransactionHistory = () => {
           <p>Information</p>
           <StyledContainer>
             <StyledSelectContainer fullWidth>
-              <InputLabel id='card-type-select-label'>Card type</InputLabel>
+              <InputLabel id='card-type-select-label'>Bank account</InputLabel>
               <Select
                 style={{ fontFamily: 'Inter' }}
                 labelId='card-type-select-label'
@@ -188,8 +190,10 @@ const TransactionHistory = () => {
                 value={state?.cardType}
                 onChange={handleChange('cardType')}
               >
-                {state.paymentMethods?.map((item) => (
-                  <MenuItem value={item.method_id}>{item.method_name}</MenuItem>
+                {state.bankAccounts?.map((item) => (
+                  <MenuItem value={item.method_id}>
+                    GBank - {item.account_num}
+                  </MenuItem>
                 ))}
               </Select>
             </StyledSelectContainer>
