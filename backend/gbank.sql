@@ -71,7 +71,7 @@ CREATE TABLE `clients_info` (
 
 LOCK TABLES `clients_info` WRITE;
 /*!40000 ALTER TABLE `clients_info` DISABLE KEYS */;
-INSERT INTO `clients_info` VALUES ('123456789','Eden Truong','49 Mac Dinh Chi','0987654321','clag@gmail.com','$2b$10$nVLgBjcfRiF5ZRJDdh5O4ui5SWM.35MHI9TtyrO1.TPlW6iayuSkq'),('271222123','Chau Nguyen','27 Nguyen Van Cu','23188734891','chau@gmail.com','$2b$10$PcCqQ9t/Q0GWcE15z6zv7.e248gebNZoptqTd2XHWMDuNnF/SEXIS');
+INSERT INTO `clients_info` VALUES ('123456789','Eden Truong','49 Mac Dinh Chi','0987654321','clag@gmail.com','$2b$10$nVLgBjcfRiF5ZRJDdh5O4ui5SWM.35MHI9TtyrO1.TPlW6iayuSkq'),('271222123','Chau Nguyen','27 Nguyen Van Cu','23188734891','chau@gmail.com','$2b$10$PcCqQ9t/Q0GWcE15z6zv7.e248gebNZoptqTd2XHWMDuNnF/SEXIS'),('77766612312','Nguyễn Thu Thảo Châu','119/3/40/4 Hoàng Hoa Thám, tổ 96, khu 7','0377921967','nttchau@gmail.com','$2b$10$YaPYxkkdXzFwlz0KIzH2NuUeUZXYJjMRqWPktLCOcy5dRuTh6CAwi');
 /*!40000 ALTER TABLE `clients_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,6 +85,7 @@ DROP TABLE IF EXISTS `locations`;
 CREATE TABLE `locations` (
   `id` int NOT NULL AUTO_INCREMENT,
   `location_name` varchar(100) DEFAULT NULL,
+  `location_address` varchar(100) DEFAULT NULL,
   `lat` decimal(15,7) DEFAULT NULL,
   `lng` decimal(15,7) DEFAULT NULL,
   `pc_id` int DEFAULT NULL,
@@ -100,7 +101,7 @@ CREATE TABLE `locations` (
 
 LOCK TABLES `locations` WRITE;
 /*!40000 ALTER TABLE `locations` DISABLE KEYS */;
-INSERT INTO `locations` VALUES (1,'Ben Thanh Market',10.7731913,106.6979350,1),(2,'Tocotoco Bubble Tea',10.7709975,106.6694916,1),(3,'GeoComply',10.7863269,106.6976925,1),(4,'Nha tho Duc Ba',10.7802924,106.6987164,1);
+INSERT INTO `locations` VALUES (1,'Ben Thanh Market','Le Loi Street, Ben Thanh Ward, District 1, Ho Chi Minh City',10.7731913,106.6979350,1),(2,'Tocotoco Bubble Tea','11 Su Van Hanh Street, Ward 12, District 10, HCMC',10.7709975,106.6694916,1),(3,'GeoComply','49 Mac Dinh Chi, Da Kao Ward, District 1, HCMC',10.7863269,106.6976925,1),(4,'Saigon Notre Dame Cathedral','01 Cong xa Paris Ben Nghe Ward, District 1, Ho Chi Minh City',10.7802924,106.6987164,1);
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,8 +139,8 @@ DROP TABLE IF EXISTS `provinces_cities`;
 CREATE TABLE `provinces_cities` (
   `id` int NOT NULL AUTO_INCREMENT,
   `pc_name` varchar(45) DEFAULT NULL,
-  `lat` float DEFAULT NULL,
-  `long` float DEFAULT NULL,
+  `lat` decimal(15,7) DEFAULT NULL,
+  `long` decimal(15,7) DEFAULT NULL,
   `isoCode` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -151,7 +152,7 @@ CREATE TABLE `provinces_cities` (
 
 LOCK TABLES `provinces_cities` WRITE;
 /*!40000 ALTER TABLE `provinces_cities` DISABLE KEYS */;
-INSERT INTO `provinces_cities` VALUES (1,'Ho Chi Minh',10.8167,106.633,'VN-SG'),(2,'Binh Duong',11.3254,106.477,'VN-57'),(3,'Ben Tre',10.2434,106.376,'VN-50');
+INSERT INTO `provinces_cities` VALUES (1,'Ho Chi Minh',10.8167000,106.6333008,'VN-SG'),(2,'Binh Duong',11.3254004,106.4769974,'VN-57'),(3,'Ben Tre',10.2433996,106.3756027,'VN-50');
 /*!40000 ALTER TABLE `provinces_cities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +185,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,'55566677788','Grab 123123 VN','2022-08-14 00:00:00',50000,2,0),(2,'55566677788','CHUYEN TIEN NHA','2022-07-31 00:00:00',4000000,3,0),(3,'55566677788','NAP TIEN DIEN THOAI','2022-09-25 00:00:00',100000,2,0),(4,'55566677788','TRA TIEN DIEN','2022-06-29 00:00:00',650000,1,0);
+INSERT INTO `transactions` VALUES (1,'55566677788','Grab 123123 VN','2022-08-14 13:00:00',50000,2,0),(2,'55566677788','CHUYEN TIEN NHA','2022-07-31 17:29:00',4000000,3,0),(3,'55566677788','NAP TIEN DIEN THOAI','2022-09-25 20:20:00',100000,2,0),(4,'55566677788','TRA TIEN DIEN','2022-06-29 09:00:12',650000,1,0);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -197,4 +198,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-30 21:16:46
+-- Dump completed on 2022-09-30 22:09:34
