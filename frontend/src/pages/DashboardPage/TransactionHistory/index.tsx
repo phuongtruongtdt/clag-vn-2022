@@ -32,8 +32,8 @@ interface BankAccount {
 
 interface Location {
   pc_name: string;
-  lat: number;
-  long: number;
+  latitude: number;
+  longtitude: number;
 }
 
 interface State {
@@ -136,8 +136,8 @@ const TransactionHistory = () => {
         state.locations[0];
       setViewState({
         ...viewState,
-        latitude: location.lat,
-        longitude: location.long,
+        latitude: location.latitude,
+        longitude: location.longtitude,
       });
     },
     [state, viewState]

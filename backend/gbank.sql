@@ -139,8 +139,8 @@ DROP TABLE IF EXISTS `provinces_cities`;
 CREATE TABLE `provinces_cities` (
   `id` int NOT NULL AUTO_INCREMENT,
   `pc_name` varchar(45) DEFAULT NULL,
-  `lat` decimal(15,7) DEFAULT NULL,
-  `long` decimal(15,7) DEFAULT NULL,
+  `latitude` decimal(15,7) DEFAULT NULL,
+  `longtitude` decimal(15,7) DEFAULT NULL,
   `isoCode` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
