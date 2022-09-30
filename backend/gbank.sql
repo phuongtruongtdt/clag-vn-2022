@@ -92,7 +92,7 @@ CREATE TABLE `locations` (
   PRIMARY KEY (`id`),
   KEY `locations_pc_idx` (`pc_id`),
   CONSTRAINT `locations_pc` FOREIGN KEY (`pc_id`) REFERENCES `provinces_cities` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +101,7 @@ CREATE TABLE `locations` (
 
 LOCK TABLES `locations` WRITE;
 /*!40000 ALTER TABLE `locations` DISABLE KEYS */;
-INSERT INTO `locations` VALUES (1,'Ben Thanh Market','Le Loi Street, Ben Thanh Ward, District 1, Ho Chi Minh City',10.7731913,106.6979350,1),(2,'Tocotoco Bubble Tea','11 Su Van Hanh Street, Ward 12, District 10, HCMC',10.7709975,106.6694916,1),(3,'GeoComply','49 Mac Dinh Chi, Da Kao Ward, District 1, HCMC',10.7863269,106.6976925,1),(4,'Saigon Notre Dame Cathedral','01 Cong xa Paris Ben Nghe Ward, District 1, Ho Chi Minh City',10.7802924,106.6987164,1);
+INSERT INTO `locations` VALUES (1,'Ben Thanh Market','Le Loi Street, Ben Thanh Ward, District 1, Ho Chi Minh City',10.7731913,106.6979350,1),(2,'Tocotoco Bubble Tea','11 Su Van Hanh Street, Ward 12, District 10, HCMC',10.7709975,106.6694916,1),(3,'GeoComply','49 Mac Dinh Chi, Da Kao Ward, District 1, HCMC',10.7863269,106.6976925,1),(4,'Saigon Notre Dame Cathedral','01 Cong xa Paris Ben Nghe Ward, District 1, Ho Chi Minh City',10.7802924,106.6987164,1),(5,'Becamex Tower',' 230 Binh Duong Highway, Phu Hoa ward, Thu Dau Mot City, Binh Duong Province',10.9765900,106.6704718,2),(6,'Hung Vuong High School for The Gifted',' 593 Binh Duong Highway, Hiep Thanh ward, Thu Dau Mot City, Binh Duong Province',10.9920078,106.6576713,2),(7,'Ben Tre High School for The Gifted',' 21 Le Quy Don, Ward 2, Bến Tre City',10.2628741,106.3828230,3),(8,'Tan Son Nhat International Airport','Truong Son street, Ward 2, Tan Binh district, HCMC',10.8189919,106.6586080,1),(9,'KFC Huynh Tan Phat','719 Huynh Tan Phat, Phu Thuan ward, District 7, HCMC',10.7405416,106.7306096,1);
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,7 +176,7 @@ CREATE TABLE `transactions` (
   KEY `transaction_location_idx` (`location_id`),
   CONSTRAINT `transaction_account` FOREIGN KEY (`account_num`) REFERENCES `bank_accounts` (`account_num`),
   CONSTRAINT `transaction_location` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +185,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,'55566677788','Grab 123123 VN','2022-08-14 13:00:00',50000,2,0),(2,'55566677788','CHUYEN TIEN NHA','2022-07-31 17:29:00',4000000,3,0),(3,'55566677788','NAP TIEN DIEN THOAI','2022-09-25 20:20:00',100000,2,0),(4,'55566677788','TRA TIEN DIEN','2022-06-29 09:00:12',650000,1,0);
+INSERT INTO `transactions` VALUES (1,'55566677788','GRAB 123 VN','2022-08-14 13:00:00',50000,2,0),(2,'55566677788','HOUSING PAYMENT','2022-07-31 17:29:00',4000000,3,0),(3,'55566677788','PAYMENT OF TELEPHONE CHARGES','2022-09-25 20:20:00',100000,2,0),(4,'55566677788','PAYING THE ELECTRIC BILL','2022-06-29 09:00:12',650000,1,0),(5,'55566677788','YOGA CLASS','2022-06-25 13:17:11',3500000,5,0),(7,'23973987411','PAYING TUITION FEE','2022-09-15 09:00:17',450000,6,0),(8,'23973987411','BOOKING KOREA AIRLINE TICKET','2022-07-27 16:16:16',25000000,8,0),(9,'23973987411','BUYING CHANEL BAG','2022-08-02 19:48:19',9308000,5,0),(10,'55566677788','TRANSFER TO EDEN','2022-07-15 14:32:02',25000,3,0),(11,'55566677788','BUYING FRIED CHICKEN','2022-06-01 19:03:00',250000,9,0);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -198,4 +198,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-30 22:09:34
+-- Dump completed on 2022-10-01  4:36:51
