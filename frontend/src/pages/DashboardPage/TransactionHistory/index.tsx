@@ -20,6 +20,7 @@ import Pin from './Pin';
 import axios from 'axios';
 import TransactionItem from './TransactionItem';
 import { format, parseISO } from 'date-fns';
+import { formatThousand } from '../../../utils';
 
 interface BankAccount {
   account_num: string;
@@ -191,6 +192,7 @@ const TransactionHistory = () => {
 
   const [isEndDateError, setIsEndDateError] = useState<boolean>(false);
 
+ 
   return (
     <PageContainer>
       <StyledGrid container columns={16} spacing={2}>
@@ -274,7 +276,7 @@ const TransactionHistory = () => {
           <StyledContainer>
             <StyledTotalField
               type='text'
-              value={'Total: ' + total + ' VND'}
+              value={'Total: ' + formatThousand(total) + ' VND'}
               variant='outlined'
               inputProps={{ readOnly: true }}
             />
@@ -360,7 +362,7 @@ const TransactionHistory = () => {
                     >
                       <p style={{ fontWeight: '500' }}>{popup.des}</p>
                       <p style={{ fontWeight: 'bold', color: '#1B7357' }}>
-                        -{popup.amount} VND
+                        -{formatThousand(popup.amount)} VND
                       </p>
                       <p style={{ fontSize: '0.7rem' }}>
                         {format(parseISO(popup.ts), 'HH:mm - dd/MM/yyyy')}

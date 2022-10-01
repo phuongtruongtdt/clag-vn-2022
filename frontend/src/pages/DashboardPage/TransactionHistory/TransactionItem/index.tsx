@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatThousand } from '../../../../utils';
 
 const TransactionItem = (props: {
   description: string;
@@ -22,7 +23,7 @@ const TransactionItem = (props: {
     >
       <p style={{ fontWeight: '500' }}>{description}</p>
       <p style={{ fontWeight: 'bold', color: '#1B7357' }}>
-        {amount ? `-${amount}` : `${money_in}`} VND
+        {amount ? `-${formatThousand(amount)}` : `${money_in}`} VND
       </p>
       <p style={{ fontSize: '0.7rem' }}>{time}</p>
       <p style={{ whiteSpace: 'normal' }}>
